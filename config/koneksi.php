@@ -1,4 +1,4 @@
 <?php
-$koneksi = mysqli_connect("localhost","root","","baznasp2_baznas");
+$koneksi = mysqli_connect("localhost","root","","website");
 
 ?>

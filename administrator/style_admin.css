@@ -3,7 +3,7 @@
 
 #nav{
 	list-style:none;
-	background-color:#00923f; 
+	background-color: #006699; 
 	color:#FFFFFF;
 	width:180px;
 	margin:0px; 
@@ -20,12 +20,12 @@
 	display:block;
 	padding:0 15px;
 	line-height:2.5;
-	border-bottom:1px solid #e4d135;
+	border-bottom:1px solid #006699;
 	text-decoration:none;
 	color:#FFFFFF;
 }
 #nav li a:hover{
-	background-color:#e4d135;
+	background-color:darkcyan;
 	color:#000;
 	text-decoration:none;
 }

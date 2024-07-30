@@ -1,2 +1,0 @@
-AuthName "config"
-AuthUserFile "/home/baznasp2/.htpasswds/public_html/config/passwd"

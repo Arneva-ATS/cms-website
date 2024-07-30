@@ -20,11 +20,11 @@ $no=1;
 echo"<fieldset  style='border-bottom:0px;border-left:0px;border-right:0px;'><legend> <b> MANAJEMEN MENU </b> </legend></fieldset>
 <a href='?menu=tambah_menu'><input type=button value='Tambah'></a><p></p>
 <table width=100% cellpadding=5 cellspacing=0 style='border-collapse:collapse;' border=1>
-<tr bgcolor=#00923f style='color:#fff;'><td>No</td><td>Nama Menu</td><td>Link</td><td>Aktif</td><td>Publish</td><td>Status Menu</td><td>Edit</td><td>Hapus</td></tr>";
+<tr bgcolor=#006699 style='color:#fff;'><td>No</td><td>Nama Menu</td><td>Link</td><td>Aktif</td><td>Publish</td><td>Status Menu</td><td>Edit</td><td>Hapus</td></tr>";
 $sql=mysqli_query($koneksi,"select * from menu");
 while($data=mysqli_fetch_array($sql)){
 if(($no%2)==0){
-$warna="#e4d135";
+$warna="#dedede";
 }else{
 $warna="#fff";
 }
@@ -135,18 +135,23 @@ $no=$posisi+1;
 echo"<fieldset  style='border-bottom:0px;border-left:0px;border-right:0px;'><legend> <b> MANAJEMEN GALERI </b> </legend></fieldset>
 <a href='?menu=tambah_galeri'><input type=button value='Tambah'></a><p></p>
 <table width=100% cellpadding=5 cellspacing=0 style='border-collapse:collapse;' border=1>
-<tr bgcolor=#00923f style='color:#fff;'><td>ID Galeri</td><td>Foto</td><td>Keterangan</td><td>Edit</td><td>Hapus</td></tr>";
+<tr bgcolor=#006699 style='color:#fff;'><td>ID Galeri</td><td>Foto</td><td>Keterangan</td><td>Edit</td><td>Hapus</td></tr>";
 $sql=mysqli_query($koneksi,"select * from galeri limit $posisi,$batas");
 while($data=mysqli_fetch_array($sql)){
 if(($no%2)==0){
-$warna="#e4d135";
+$warna="#dedede";
 }else{
 $warna="#fff";
 }
 $isi=$data['keterangan'];
 $isian=substr($isi,0,100);
 $isian=substr($isi,0,strrpos($isian," "));
-echo"<tr bgcolor=$warna><td>$no</td><td><img src='../galeri/small_$data[foto]' width=150></td><td>$isian...</td><td><a href='?menu=edit_galeri&id=$data[id_galeri]'><input type=button value=Edit></a></td><td><a href=\"aksi.php?act=hapus_galeri&id=$data[id_galeri]&foto=$data[foto]\" onclick=\"return confirm('Yakin Mau Hapus $data[foto] ini ?');\"><input type=button value=Hapus></a></td></tr>";
+if(file_exists('../galeri/small_'.$data['foto'].'')){
+  $gbr = '../galeri/small_'.$data['foto'].'';
+}else{
+  $gbr = '../galeri/default.jpg';
+}
+echo"<tr bgcolor=$warna><td>$no</td><td><img src='$gbr' width=150></td><td>$isian...</td><td><a href='?menu=edit_galeri&id=$data[id_galeri]'><input type=button value=Edit></a></td><td><a href=\"aksi.php?act=hapus_galeri&id=$data[id_galeri]&foto=$data[foto]\" onclick=\"return confirm('Yakin Mau Hapus $data[foto] ini ?');\"><input type=button value=Hapus></a></td></tr>";
 $no++;
 }
 echo"</table>";
@@ -233,11 +238,11 @@ $no=$posisi+1;
 echo"<fieldset  style='border-bottom:0px;border-left:0px;border-right:0px;'><legend> <b> KATEGORI GALERI </b> </legend></fieldset>
 <a href='?menu=tambah_kategori_galeri'><input type=button value='Tambah'></a><p></p>
 <table width=100% cellpadding=5 cellspacing=0 style='border-collapse:collapse;' border=1>
-<tr bgcolor=#00923f style='color:#fff;'><td>ID Kategori</td><td>Judul</td><td>Edit</td><td>Hapus</td></tr>";
+<tr bgcolor=#006699 style='color:#fff;'><td>ID Kategori</td><td>Judul</td><td>Edit</td><td>Hapus</td></tr>";
 $sql=mysqli_query($koneksi,"select * from kategori_galeri limit $posisi,$batas");
 while($data=mysqli_fetch_array($sql)){
 if(($no%2)==0){
-$warna="#e4d135";
+$warna="#dedede";
 }else{
 $warna="#fff";
 }
@@ -305,11 +310,11 @@ $no=$posisi+1;
 echo"<fieldset  style='border-bottom:0px;border-left:0px;border-right:0px;'><legend> <b> KATEGORI BERITA </b> </legend></fieldset>
 <a href='?menu=tambah_kategori_berita'><input type=button value='Tambah'></a><p></p>
 <table width=100% cellpadding=5 cellspacing=0 style='border-collapse:collapse;' border=1>
-<tr bgcolor=#00923f style='color:#fff;'><td>ID Kategori</td><td>Nama Kategori</td><td>Edit</td><td>Hapus</td></tr>";
+<tr bgcolor=#006699 style='color:#fff;'><td>ID Kategori</td><td>Nama Kategori</td><td>Edit</td><td>Hapus</td></tr>";
 $sql=mysqli_query($koneksi,"select * from kategori limit $posisi,$batas");
 while($data=mysqli_fetch_array($sql)){
 if(($no%2)==0){
-$warna="#e4d135";
+$warna="#dedede";
 }else{
 $warna="#fff";
 }
@@ -377,18 +382,23 @@ $no=$posisi+1;
 echo"<fieldset  style='border-bottom:0px;border-left:0px;border-right:0px;'><legend> <b> MANAJEMEN AGENDA </b> </legend></fieldset>
 <a href='?menu=tambah_agenda'><input type=button value='Tambah'></a><p></p>
 <table width=100% cellpadding=5 cellspacing=0 style='border-collapse:collapse;' border=1>
-<tr bgcolor=#00923f style='color:#fff;'><td>ID Agenda</td><td>Nama Agenda</td><td>Tanggal Agenda</td><td>Foto</td><td>Keterangan</td><td>Edit</td><td>Hapus</td></tr>";
+<tr bgcolor=#006699 style='color:#fff;'><td>ID Agenda</td><td>Nama Agenda</td><td>Tanggal Agenda</td><td>Foto</td><td>Keterangan</td><td>Edit</td><td>Hapus</td></tr>";
 $sql=mysqli_query($koneksi,"select * from agenda order by id_agenda DESC limit $posisi,$batas");
 while($data=mysqli_fetch_array($sql)){
 if(($no%2)==0){
-$warna="#e4d135";
+$warna="#dedede";
 }else{
 $warna="#fff";
+}
+if(file_exists('../agenda/small_'.$data['foto'].'')){
+  $agd = '../agenda/small_'.$data['foto'].'';
+}else{
+  $agd = '../agenda/default.jpg';
 }
 $isi=$data['keterangan'];
 $isian=substr($isi,0,250);
 $isian=substr($isi,0,strrpos($isian," "));
-echo"<tr bgcolor=$warna><td>$no</td><td>$data[nama_agenda]</td><td>$data[tanggal_agenda]</td><td><img src='../agenda/small_$data[foto]' width=100></td><td>$isian...</td><td><a href='?menu=edit_agenda&id=$data[id_agenda]'><input type=button value=Edit></a></td><td><a href=\"aksi.php?act=hapus_agenda&id=$data[id_agenda]&foto=$data[foto]\" onclick=\"return confirm('Yakin Mau Hapus $data[nama_agenda] ?');\"><input type=button value=Hapus></a></td></tr>";
+echo"<tr bgcolor=$warna><td>$no</td><td>$data[nama_agenda]</td><td>$data[tanggal_agenda]</td><td><img src='$agd' width=100></td><td>$isian...</td><td><a href='?menu=edit_agenda&id=$data[id_agenda]'><input type=button value=Edit></a></td><td><a href=\"aksi.php?act=hapus_agenda&id=$data[id_agenda]&foto=$data[foto]\" onclick=\"return confirm('Yakin Mau Hapus $data[nama_agenda] ?');\"><input type=button value=Hapus></a></td></tr>";
 $no++;
 }
 echo"</table>";
@@ -537,11 +547,11 @@ $no=$posisi+1;
 echo"<fieldset  style='border-bottom:0px;border-left:0px;border-right:0px;'><legend> <b> MANAJEMEN USER </b> </legend></fieldset>
 <a href='?menu=tambah_user'><input type=button value='Tambah'></a><p></p>
 <table width=100% cellpadding=5 cellspacing=0 style='border-collapse:collapse;' border=1>
-<tr bgcolor=#00923f style='color:#fff;'><td>No</td><td>Username</td><td>Email</td><td>Status User</td><td>Edit</td><td>Hapus</td></tr>";
+<tr bgcolor=#006699 style='color:#fff;'><td>No</td><td>Username</td><td>Email</td><td>Status User</td><td>Edit</td><td>Hapus</td></tr>";
 $sql=mysqli_query($koneksi,"select * from user limit $posisi,$batas");
 while($data=mysqli_fetch_array($sql)){
 if(($no%2)==0){
-$warna="#e4d135";
+$warna="#dedede";
 }else{
 $warna="#fff";
 }
@@ -694,7 +704,7 @@ echo"
 <fieldset  style='border-bottom:0px;border-left:0px;border-right:0px;'><legend> <b> MANAJEMEN BERITA </b> </legend></fieldset>
 <a href='?menu=tambah_berita'><input type=button value=Tambah></a><br><br>
 <table border=1 cellpadding=4 cellspacing=0 width=100% style='border-collapse:collapse;'>
-<tr bgcolor=#00923f style='color:#fff;'><td>No</td><td>Judul</td><td>Foto</td><td>Tanggal</td><td>User</td><td>Edit</td><td>Hapus</td></tr>
+<tr bgcolor=#006699 style='color:#fff;'><td>No</td><td>Judul</td><td>Foto</td><td>Tanggal</td><td>User</td><td>Edit</td><td>Hapus</td></tr>
 ";
 if($_SESSION['status_user']=='admin'){
 
@@ -713,11 +723,18 @@ $isian=substr($isi,0,80);
 $isian=substr($isi,0,strrpos($isian," "));
 
 if(($no%2)==0){
-$warna="#e4d135";
+$warna="#dedede";
 }else{
 $warna="#fff";
 }
-echo "<tr bgcolor=$warna><td>$no</td><td>$data[judul]</td><td><img src='../berita/small_$data[foto]' width=50></td><td>$data[tgl]</td><td>$data[username]</td><td><a href='?menu=edit_berita&id=$data[id_berita]'><input type=button value=Edit></a></td><td><a href=\"aksi.php?act=hapus_berita&id=$data[id_berita]&foto=$data[foto]\" onclick=\"return confirm('Yakin Mau Hapus $data[judul] ?');\"><input type=button value=Hapus></a></td></tr>";
+
+if(file_exists('../berita/small_'.$data['foto'].'')){
+  $brt = '../berita/small_'.$data['foto'].'';
+}else{
+  $brt = '../berita/default.jpg';
+}
+
+echo "<tr bgcolor=$warna><td>$no</td><td>$data[judul]</td><td><img src='".$brt."' width=50></td><td>$data[tgl]</td><td>$data[username]</td><td><a href='?menu=edit_berita&id=$data[id_berita]'><input type=button value=Edit></a></td><td><a href=\"aksi.php?act=hapus_berita&id=$data[id_berita]&foto=$data[foto]\" onclick=\"return confirm('Yakin Mau Hapus $data[judul] ?');\"><input type=button value=Hapus></a></td></tr>";
   $no++;
 }
 echo "</table><br>";
@@ -831,11 +848,11 @@ if($_GET['menu']=='module'){
 $no=1;
 echo"<fieldset  style='border-bottom:0px;border-left:0px;border-right:0px;'><legend> <b> MANAJEMEN MODULE </b> </legend></fieldset>
 <table width=100% cellpadding=5 cellspacing=0 style='border-collapse:collapse;' border=1>
-<tr bgcolor=#00923f style='color:#fff;'><td>ID Module</td><td>Nama Module</td><td>Status</td><td>Aktifkan</td><td>Blok</td></tr>";
+<tr bgcolor=#006699 style='color:#fff;'><td>ID Module</td><td>Nama Module</td><td>Status</td><td>Aktifkan</td><td>Blok</td></tr>";
 $sql=mysqli_query($koneksi,"select * from module");
 while($data=mysqli_fetch_array($sql)){
 if(($no%2)==0){
-$warna="#e4d135";
+$warna="#dedede";
 }else{
 $warna="#fff";
 }
@@ -872,7 +889,7 @@ if($_GET['menu']=='files'){
 echo"<fieldset  style='border-bottom:0px;border-left:0px;border-right:0px;'><legend> <b> MANAJEMEN FILES </b> </legend></fieldset>
 <a href='?menu=tambah_files'><input type=submit value='Tambah'></a><p></p>";
 echo"<table border=1 cellpadding=4 cellspacing=0 width=100% style='border-collapse:collapse;'>
-<tr bgcolor=#00923f style='color:#fff;'><td>Kode Files</td><td>Judul Files</td><td>External Link</td><td>Files</td><td>Hapus</td></tr>";
+<tr bgcolor=#006699 style='color:#fff;'><td>Kode Files</td><td>Judul Files</td><td>External Link</td><td>Files</td><td>Hapus</td></tr>";
 $no=1;
 $batas=10;
 $halaman=$_GET['halaman'];
@@ -885,7 +902,7 @@ $posisi=($halaman-1)*$batas;
 $sql=mysqli_query($koneksi,"select * from files limit $posisi,$batas");
 while($data=mysqli_fetch_array($sql)){
 if(($no%2)==0){
-$warna="#e4d135";
+$warna="#dedede";
 }else{
 $warna="#fff";
 }
