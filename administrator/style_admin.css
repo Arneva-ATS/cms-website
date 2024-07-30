@@ -1,0 +1,31 @@
+@charset "utf-8";
+/* CSS Document */
+
+#nav{
+	list-style:none;
+	background-color:#00923f; 
+	color:#FFFFFF;
+	width:180px;
+	margin:0px; 
+	padding:0px;
+	text-decoration:none;
+}
+#nav li{
+	margin:0px;
+	padding:0px;
+	color:#FFFFFF;
+	
+}
+#nav li a{
+	display:block;
+	padding:0 15px;
+	line-height:2.5;
+	border-bottom:1px solid #e4d135;
+	text-decoration:none;
+	color:#FFFFFF;
+}
+#nav li a:hover{
+	background-color:#e4d135;
+	color:#000;
+	text-decoration:none;
+}

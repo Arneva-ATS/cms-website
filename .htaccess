@@ -1,0 +1,13 @@
+RewriteEngine on
+
+RewriteRule ^home$ index.php?menu=home [L]
+RewriteRule ^profile$ index.php?menu=profile [L]
+RewriteRule ^galeri_galeri$ index.php?menu=galeri [L]
+RewriteRule ^news$ index.php?menu=news [L]
+RewriteRule ^file$ index.php?menu=file [L]
+RewriteRule ^berita-(.*)\.html$ index.php?menu=detailberita&id=$1 [L]
+RewriteRule ^kategori-(.*)\.html$ index.php?menu=detail_kategori&id=$1 [L]
+RewriteRule ^agenda-(.*)\.html$ index.php?menu=detail_agenda&id=$1 [L]
+RewriteRule ^hasil-pencarian\.html$ index.php?menu=cari&id=$1 [L]
+RewriteRule ^hasil-pencarian\.html$ index.php?menu=cari [L]
+
