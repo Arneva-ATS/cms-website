@@ -17,9 +17,9 @@ echo"
 ";
 }else{
 
-$sql=mysql_query("select * from user where username='$username' and password='$password'");
-$data=mysql_fetch_array($sql);
-$cek=mysql_num_rows($sql);
+$sql=mysqli_query($koneksi,"select * from user where username='$username' and password='$password'");
+$data=mysqli_fetch_array($sql);
+$cek=mysqli_num_rows($sql);
 if($cek>0){
 
 //session_register('id_user');

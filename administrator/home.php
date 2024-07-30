@@ -1,7 +1,7 @@
 <?php
 session_start();
 include"../config/koneksi.php";
-$identitas=mysql_fetch_array(mysql_query("select * from identitas_web where id_identitas='1'"));
+$identitas=mysqli_fetch_array(mysqli_query($koneksi,"select * from identitas_web where id_identitas='1'"));
 if(empty($_SESSION['id_user'])){
 echo"
 <body style='background-color:#00923f;'>
@@ -45,7 +45,7 @@ body{background-color:#00923f;}
   </tr>
   <tr>
     <td width="175" height="172" valign="top">
-	<?php 
+	<?php
 	echo"<ul id='nav'>";
 	include"menu_panel.php";
 	echo"</ul>";
@@ -60,5 +60,3 @@ body{background-color:#00923f;}
 </body>
 </html>
 <?php } ?>
-
-

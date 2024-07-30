@@ -21,8 +21,8 @@ echo"<fieldset  style='border-bottom:0px;border-left:0px;border-right:0px;'><leg
 <a href='?menu=tambah_menu'><input type=button value='Tambah'></a><p></p>
 <table width=100% cellpadding=5 cellspacing=0 style='border-collapse:collapse;' border=1>
 <tr bgcolor=#00923f style='color:#fff;'><td>No</td><td>Nama Menu</td><td>Link</td><td>Aktif</td><td>Publish</td><td>Status Menu</td><td>Edit</td><td>Hapus</td></tr>";
-$sql=mysql_query("select * from menu");
-while($data=mysql_fetch_array($sql)){
+$sql=mysqli_query($koneksi,"select * from menu");
+while($data=mysqli_fetch_array($sql)){
 if(($no%2)==0){
 $warna="#e4d135";
 }else{
@@ -56,7 +56,7 @@ echo"
 }
 
 if($_GET['menu']=='edit_menu'){
-$data=mysql_fetch_array(mysql_query("select * from menu where id_menu='$_GET[id]'"));
+$data=mysqli_fetch_array(mysqli_query($koneksi,"select * from menu where id_menu='$_GET[id]'"));
 echo"
 <fieldset  style='border-bottom:0px;border-left:0px;border-right:0px;'><legend> <b> EDIT MENU </b> </legend></fieldset>
 <form method=POST action='aksi.php?act=edit_menu'>
@@ -88,7 +88,7 @@ echo"<tr><td></td><td><input type=submit value=simpan> <input type=button value=
 
 
 if($_GET['menu']=='kontak'){
-$data=mysql_fetch_array(mysql_query("select * from kontak where id_kontak='1'"));
+$data=mysqli_fetch_array(mysqli_query($koneksi,"select * from kontak where id_kontak='1'"));
 echo"
 <fieldset  style='border-bottom:0px;border-left:0px;border-right:0px;'><legend> <b> MANAJEMEN KONTAK </b> </legend></fieldset>
 <form method=POST action='aksi.php?act=input_kontak'>
@@ -105,7 +105,7 @@ echo"
 
 if($_GET['menu']=='profil'){
 
-$data=mysql_fetch_array(mysql_query("select * from profil where id_profile='1'"));
+$data=mysqli_fetch_array(mysqli_query($koneksi,"select * from profil where id_profile='1'"));
 echo"
 <fieldset  style='border-bottom:0px;border-left:0px;border-right:0px;'><legend> <b> MANAJEMEN PROFIL </b> </legend></fieldset>
 <form method=POST action='aksi.php?act=input_profil' enctype='multipart/form-data'>
@@ -136,8 +136,8 @@ echo"<fieldset  style='border-bottom:0px;border-left:0px;border-right:0px;'><leg
 <a href='?menu=tambah_galeri'><input type=button value='Tambah'></a><p></p>
 <table width=100% cellpadding=5 cellspacing=0 style='border-collapse:collapse;' border=1>
 <tr bgcolor=#00923f style='color:#fff;'><td>ID Galeri</td><td>Foto</td><td>Keterangan</td><td>Edit</td><td>Hapus</td></tr>";
-$sql=mysql_query("select * from galeri limit $posisi,$batas");
-while($data=mysql_fetch_array($sql)){
+$sql=mysqli_query($koneksi,"select * from galeri limit $posisi,$batas");
+while($data=mysqli_fetch_array($sql)){
 if(($no%2)==0){
 $warna="#e4d135";
 }else{
@@ -153,7 +153,7 @@ echo"</table>";
 
 echo"<br> Halaman : ";
 
-$query=mysql_num_rows(mysql_query("select * from galeri"));
+$query=mysqli_num_rows(mysqli_query($koneksi,"select * from galeri"));
 $jumlah=ceil($query/$batas);
 
 for($i=1;$i<=$jumlah;$i++){
@@ -169,7 +169,7 @@ echo"<br><br><font size=2><b>Catatan: Sertakan Foto Berupa JPG/JPEG</b></font>";
 }
 
 if($_GET['menu']=='edit_galeri'){
-$data=mysql_fetch_array(mysql_query("select * from galeri where id_galeri='$_GET[id]'"));
+$data=mysqli_fetch_array(mysqli_query($koneksi,"select * from galeri where id_galeri='$_GET[id]'"));
 echo"
 <fieldset  style='border-bottom:0px;border-left:0px;border-right:0px;'><legend> <b> EDIT GALERI </b> </legend></fieldset>
 <form method=POST action='aksi.php?act=edit_galeri' enctype='multipart/form-data'>
@@ -177,8 +177,8 @@ echo"
 <table width=100% border=1 cellpadding=5 cellspacing=0 style='border-collapse:collapse;'>
 <tr><td>Id Galeri</td><td><input type=text name='id_galeri' value='$data[id_galeri]' size=1 disabled></td></tr>";
 echo"<tr><td>Kategori</td><td><select name='id_kategori'>";
-$query=mysql_query("select * from kategori_galeri");
-while($rows=mysql_fetch_array($query)){
+$query=mysqli_query($koneksi,"select * from kategori_galeri");
+while($rows=mysqli_fetch_array($query)){
 if($rows['id_kategori']==$data['id_kategori'])
 {
 echo"<option value='$rows[id_kategori]' selected>$rows[judul]</option>";
@@ -205,8 +205,8 @@ echo"
 <form method=POST action='aksi.php?act=tambah_galeri' enctype='multipart/form-data'>
 <table width=100% border=1 cellpadding=5 cellspacing=0 style='border-collapse:collapse;'>";
 echo"<tr><td>Kategori</td><td><select name='id_kategori'>";
-$query=mysql_query("select * from kategori_galeri");
-while($rows=mysql_fetch_array($query)){
+$query=mysqli_query($koneksi,"select * from kategori_galeri");
+while($rows=mysqli_fetch_array($query)){
 echo"<option value='$rows[id_kategori]'>$rows[judul]</option>";
 }
 echo"</td></tr>
@@ -234,8 +234,8 @@ echo"<fieldset  style='border-bottom:0px;border-left:0px;border-right:0px;'><leg
 <a href='?menu=tambah_kategori_galeri'><input type=button value='Tambah'></a><p></p>
 <table width=100% cellpadding=5 cellspacing=0 style='border-collapse:collapse;' border=1>
 <tr bgcolor=#00923f style='color:#fff;'><td>ID Kategori</td><td>Judul</td><td>Edit</td><td>Hapus</td></tr>";
-$sql=mysql_query("select * from kategori_galeri limit $posisi,$batas");
-while($data=mysql_fetch_array($sql)){
+$sql=mysqli_query($koneksi,"select * from kategori_galeri limit $posisi,$batas");
+while($data=mysqli_fetch_array($sql)){
 if(($no%2)==0){
 $warna="#e4d135";
 }else{
@@ -247,7 +247,7 @@ $no++;
 echo"</table>";
 
 echo"<br> Halaman : ";
-$query=mysql_num_rows(mysql_query("select * from kategori_galeri"));
+$query=mysqli_num_rows(mysqli_query($koneksi,"select * from kategori_galeri"));
 $jumlah=ceil($query/$batas);
 
 for($i=1;$i<=$jumlah;$i++){
@@ -260,7 +260,7 @@ echo"<b> $i | </b>";
 }
 
 if($_GET['menu']=='edit_kategori_galeri'){
-$data=mysql_fetch_array(mysql_query("select * from kategori_galeri where id_kategori='$_GET[id]'"));
+$data=mysqli_fetch_array(mysqli_query($koneksi,"select * from kategori_galeri where id_kategori='$_GET[id]'"));
 echo"
 <fieldset  style='border-bottom:0px;border-left:0px;border-right:0px;'><legend> <b> EDIT KATEGORI GALERI </b> </legend></fieldset>
 <form method=POST action='aksi.php?act=edit_kategori_galeri'>
@@ -306,8 +306,8 @@ echo"<fieldset  style='border-bottom:0px;border-left:0px;border-right:0px;'><leg
 <a href='?menu=tambah_kategori_berita'><input type=button value='Tambah'></a><p></p>
 <table width=100% cellpadding=5 cellspacing=0 style='border-collapse:collapse;' border=1>
 <tr bgcolor=#00923f style='color:#fff;'><td>ID Kategori</td><td>Nama Kategori</td><td>Edit</td><td>Hapus</td></tr>";
-$sql=mysql_query("select * from kategori limit $posisi,$batas");
-while($data=mysql_fetch_array($sql)){
+$sql=mysqli_query($koneksi,"select * from kategori limit $posisi,$batas");
+while($data=mysqli_fetch_array($sql)){
 if(($no%2)==0){
 $warna="#e4d135";
 }else{
@@ -319,7 +319,7 @@ $no++;
 echo"</table>";
 
 echo"<br> Halaman : ";
-$query=mysql_num_rows(mysql_query("select * from kategori"));
+$query=mysqli_num_rows(mysqli_query($koneksi,"select * from kategori"));
 $jumlah=ceil($query/$batas);
 
 for($i=1;$i<=$jumlah;$i++){
@@ -348,7 +348,7 @@ echo"
 }
 
 if($_GET['menu']=='edit_kategori_berita'){
-$data=mysql_fetch_array(mysql_query("select * from kategori where id_kategori='$_GET[id]'"));
+$data=mysqli_fetch_array(mysqli_query($koneksi,"select * from kategori where id_kategori='$_GET[id]'"));
 echo"
 <fieldset  style='border-bottom:0px;border-left:0px;border-right:0px;'><legend> <b> EDIT KATEGORI BERITA </b> </legend></fieldset>
 <form method=POST action='aksi.php?act=edit_kategori_berita'>
@@ -378,8 +378,8 @@ echo"<fieldset  style='border-bottom:0px;border-left:0px;border-right:0px;'><leg
 <a href='?menu=tambah_agenda'><input type=button value='Tambah'></a><p></p>
 <table width=100% cellpadding=5 cellspacing=0 style='border-collapse:collapse;' border=1>
 <tr bgcolor=#00923f style='color:#fff;'><td>ID Agenda</td><td>Nama Agenda</td><td>Tanggal Agenda</td><td>Foto</td><td>Keterangan</td><td>Edit</td><td>Hapus</td></tr>";
-$sql=mysql_query("select * from agenda order by id_agenda DESC limit $posisi,$batas");
-while($data=mysql_fetch_array($sql)){
+$sql=mysqli_query($koneksi,"select * from agenda order by id_agenda DESC limit $posisi,$batas");
+while($data=mysqli_fetch_array($sql)){
 if(($no%2)==0){
 $warna="#e4d135";
 }else{
@@ -394,7 +394,7 @@ $no++;
 echo"</table>";
 
 echo"<br> Halaman : ";
-$query=mysql_num_rows(mysql_query("select * from agenda"));
+$query=mysqli_num_rows(mysqli_query($koneksi,"select * from agenda"));
 $jumlah=ceil($query/$batas);
 
 for($i=1;$i<=$jumlah;$i++){
@@ -462,7 +462,7 @@ echo"</select>
 }
 
 if($_GET['menu']=='edit_agenda'){
-$data=mysql_fetch_array(mysql_query("select * from agenda where id_agenda='$_GET[id]'"));
+$data=mysqli_fetch_array(mysqli_query($koneksi,"select * from agenda where id_agenda='$_GET[id]'"));
 echo"
 <fieldset  style='border-bottom:0px;border-left:0px;border-right:0px;'><legend> <b> EDIT AGENDA </b> </legend></fieldset>
 <form method=POST action='aksi.php?act=edit_agenda' enctype='multipart/form-data'>
@@ -538,8 +538,8 @@ echo"<fieldset  style='border-bottom:0px;border-left:0px;border-right:0px;'><leg
 <a href='?menu=tambah_user'><input type=button value='Tambah'></a><p></p>
 <table width=100% cellpadding=5 cellspacing=0 style='border-collapse:collapse;' border=1>
 <tr bgcolor=#00923f style='color:#fff;'><td>No</td><td>Username</td><td>Email</td><td>Status User</td><td>Edit</td><td>Hapus</td></tr>";
-$sql=mysql_query("select * from user limit $posisi,$batas");
-while($data=mysql_fetch_array($sql)){
+$sql=mysqli_query($koneksi,"select * from user limit $posisi,$batas");
+while($data=mysqli_fetch_array($sql)){
 if(($no%2)==0){
 $warna="#e4d135";
 }else{
@@ -551,7 +551,7 @@ $no++;
 echo"</table>";
 
 echo"<br> Halaman : ";
-$query=mysql_num_rows(mysql_query("select * from user"));
+$query=mysqli_num_rows(mysqli_query($koneksi,"select * from user"));
 $jumlah=ceil($query/$batas);
 
 for($i=1;$i<=$jumlah;$i++){
@@ -566,7 +566,7 @@ echo"<b> $i | </b>";
 }
 
 if($_GET['menu']=='edit_user'){
-$data=mysql_fetch_array(mysql_query("select * from user where id_user='$_GET[id]'"));
+$data=mysqli_fetch_array(mysqli_query($koneksi,"select * from user where id_user='$_GET[id]'"));
 echo"
 <fieldset  style='border-bottom:0px;border-left:0px;border-right:0px;'><legend> <b> EDIT USER </b> </legend></fieldset>
 <form method=POST action='aksi.php?act=edit_user' enctype='multipart/form-data'>
@@ -704,10 +704,10 @@ $tampil="select * from berita order by id_berita DESC limit $posisi,$batas";
 $tampil="select * from berita where id_user='$_SESSION[id_user]' order by id_berita DESC limit $posisi,$batas";
 }
 
-$hasil=mysql_query($tampil);
+$hasil=mysqli_query($koneksi,$tampil);
 
 $no=$posisi+1;
-while ($data=mysql_fetch_array($hasil)){
+while ($data=mysqli_fetch_array($hasil)){
 $isi=htmlentities($data['keterangan']);
 $isian=substr($isi,0,80);
 $isian=substr($isi,0,strrpos($isian," "));
@@ -730,26 +730,26 @@ $tampil2="select * from berita";
 $tampil2="select * from berita where id_user='$_SESSION[id_user]'";
 }
 
-$hasil2=mysql_query($tampil2);
-$jmldata=mysql_num_rows($hasil2);
+$hasil2=mysqli_query($tampil2);
+$jmldata=mysqli_num_rows($hasil2);
 
 $jmlhalaman=ceil($jmldata/$batas);
 
 if($halaman > 1)
 {
 	$previous=$halaman-1;
-	echo "<A HREF=?menu=berita&halaman=1> awal </A>  
+	echo "<A HREF=?menu=berita&halaman=1> awal </A>
         <A HREF=?menu=berita&halaman=$previous> sebelumnya </A>  ";
 }
 else
-{ 
+{
 	echo " Awal | Sebelumnya | ";
 }
 
 $angka=($halaman > 3 ? " ... " : " ");
 for($i=$halaman-2;$i<$halaman;$i++)
 {
-  if ($i < 1) 
+  if ($i < 1)
       continue;
   $angka .= "<a href=?menu=berita&halaman=$i> &nbsp; $i  &nbsp; </A> ";
 }
@@ -757,12 +757,12 @@ for($i=$halaman-2;$i<$halaman;$i++)
 $angka .= " <b style='background-color:#e4d135'>&nbsp; $halaman &nbsp;  </b> ";
 for($i=$halaman+1;$i<($halaman+3);$i++)
 {
-  if ($i > $jmlhalaman) 
+  if ($i > $jmlhalaman)
       break;
   $angka .= "<a href=?menu=berita&halaman=$i> &nbsp; $i  &nbsp; </A> ";
 }
 
-$angka .= ($halaman+2<$jmlhalaman ? " ...  
+$angka .= ($halaman+2<$jmlhalaman ? " ...
           <a href=?menu=berita&halaman=$jmlhalaman> &nbsp; $jmlhalaman </A> " : " ");
 
 echo " &nbsp; $angka &nbsp; ";
@@ -775,8 +775,8 @@ echo"
 <form method=POST action='aksi.php?act=tambah_berita' enctype='multipart/form-data'>
 <table border=1 cellpadding=5 cellspacing=0 style='border-collapse:collapse;' width=100%>
 <tr><td>Kategori Informasi</td><td><select name='id_kategori'>";
-$sql=mysql_query("select * from kategori");
-while($data=mysql_fetch_array($sql)){
+$sql=mysqli_query($koneksi,"select * from kategori");
+while($data=mysqli_fetch_array($sql)){
 echo"<option value='$data[id_kategori]'>$data[nama_kategori]</option>";
 }
 echo"</select></td></tr>";
@@ -796,15 +796,15 @@ echo"</table>
 }
 
 if($_GET['menu']=='edit_berita'){
-$data=mysql_fetch_array(mysql_query("select * from berita where id_berita='$_GET[id]'"));
+$data=mysqli_fetch_array(mysqli_query($koneksi,"select * from berita where id_berita='$_GET[id]'"));
 echo"
 <fieldset  style='border-bottom:0px;border-left:0px;border-right:0px;'><legend> <b> EDIT BERITA </b> </legend></fieldset>
 <form method=POST action='aksi.php?act=edit_berita' enctype='multipart/form-data'>
 <input type=hidden name='id_berita' value='$data[id_berita]'>
 <table border=1 cellpadding=5 cellspacing=0 style='border-collapse:collapse;' width=100%>
 <tr><td>Kategori Berita</td><td><select name='id_kategori'>";
-$query=mysql_query("select * from kategori");
-while($rows=mysql_fetch_array($query)){
+$query=mysqli_query($koneksi,"select * from kategori");
+while($rows=mysqli_fetch_array($query)){
 if($rows['id_kategori']==$data['id_kategori']){
 echo"<option value='$rows[id_kategori]' selected>$rows[nama_kategori]</option>";
 }else{
@@ -832,8 +832,8 @@ $no=1;
 echo"<fieldset  style='border-bottom:0px;border-left:0px;border-right:0px;'><legend> <b> MANAJEMEN MODULE </b> </legend></fieldset>
 <table width=100% cellpadding=5 cellspacing=0 style='border-collapse:collapse;' border=1>
 <tr bgcolor=#00923f style='color:#fff;'><td>ID Module</td><td>Nama Module</td><td>Status</td><td>Aktifkan</td><td>Blok</td></tr>";
-$sql=mysql_query("select * from module");
-while($data=mysql_fetch_array($sql)){
+$sql=mysqli_query($koneksi,"select * from module");
+while($data=mysqli_fetch_array($sql)){
 if(($no%2)==0){
 $warna="#e4d135";
 }else{
@@ -849,7 +849,7 @@ echo"<b><font size=2> Catatan : <br> &bull; untuk menggaktifkan/menonaktifkan mo
 }
 
 if($_GET['menu']=='identitas'){
-$data=mysql_fetch_array(mysql_query("select * from identitas_web where id_identitas='1'"));
+$data=mysqli_fetch_array(mysqli_query($koneksi,"select * from identitas_web where id_identitas='1'"));
 echo"
 <fieldset  style='border-bottom:0px;border-left:0px;border-right:0px;'><legend> <b> EDIT IDENTITAS WEB </b> </legend></fieldset>
 <form method=POST action='aksi.php?act=edit_identitas' enctype='multipart/form-data'>
@@ -882,8 +882,8 @@ $halaman=1;
 }else{
 $posisi=($halaman-1)*$batas;
 }
-$sql=mysql_query("select * from files limit $posisi,$batas");
-while($data=mysql_fetch_array($sql)){
+$sql=mysqli_query($koneksi,"select * from files limit $posisi,$batas");
+while($data=mysqli_fetch_array($sql)){
 if(($no%2)==0){
 $warna="#e4d135";
 }else{
@@ -894,7 +894,7 @@ $no++;
 }
 echo"</table>";
 
-$query=mysql_num_rows(mysql_query("select * from files"));
+$query=mysqli_num_rows(mysqli_query($koneksi,"select * from files"));
 $jum=ceil($query/$batas);
 
 echo"<br> halaman : ";

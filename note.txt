@@ -1,9 +1,0 @@
-if ($tipe_file != "image/jpeg" AND $tipe_file != "image/pjpeg"){
-    echo "<script>alert('Upload Gagal, Pastikan File yang di Upload bertipe *.JPG');
-        window.location=('home.php?menu=galeri')</script>";
-}else{
-UploadGaleri($nama_lain);
-mysql_query("insert into galeri(id_galeri,id_kategori,foto,keterangan)values('$_POST[id_galeri]','$_POST[id_kategori]','$nama_lain','$_POST[keterangan]')");
-}
-
-background-image:url(background.jpg); background-repeat:repeat-y; margin:0px; padding:0px; background-position:center;
