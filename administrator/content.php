@@ -7,12 +7,12 @@ echo"<center>Dilarang Akses Langsung !</center>";
 //--------------------------------------------------------------------------START OF CONTENT----------------------------------------------------
 if($_GET['menu']=='home'){
 $tgl=date("D,d-M-Y | H:i:s");
-echo"<h3 style='border-bottom:1px solid #000;'>Welcome</h3> Selamat Datang <b>$_SESSION[nama]</b> <br> Anda Login Sebagai : <b> ".ucwords($_SESSION[status_user])." </b><br> Silahkan Olah Modul Disamping ! <br> Tanggal Akses Anda : $tgl";
+echo"<h3 style='border-bottom:1px solid #000;'>Welcome</h3> Selamat Datang <b>$_SESSION[nama]</b> <br> Anda Login Sebagai : <b> ".ucwords($_SESSION['status_user'])." </b><br> Silahkan Olah Modul Disamping ! <br> Tanggal Akses Anda : $tgl";
 
 }
 if($_GET['menu']==''){
 $tgl=date("D,d-M-Y | H:i:s");
-echo"<h3 style='border-bottom:1px solid #000;'>Welcome</h3> Selamat Datang <b>$_SESSION[nama]</b> <br> Anda Login Sebagai : <b> ".ucwords($_SESSION[status_user])." </b><br> Silahkan Olah Modul Disamping ! <br> Tanggal Akses Anda : $tgl";
+echo"<h3 style='border-bottom:1px solid #000;'>Welcome</h3> Selamat Datang <b>$_SESSION[nama]</b> <br> Anda Login Sebagai : <b> ".ucwords($_SESSION['status_user'])." </b><br> Silahkan Olah Modul Disamping ! <br> Tanggal Akses Anda : $tgl";
 }
 
 if($_GET['menu']=='menu'){
