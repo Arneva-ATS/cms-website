@@ -762,7 +762,7 @@ $tampil2="select * from berita";
 $tampil2="select * from berita where id_user='$_SESSION[id_user]'";
 }
 
-$hasil2=mysqli_query($tampil2);
+$hasil2=mysqli_query($koneksi,$tampil2);
 $jmldata=mysqli_num_rows($hasil2);
 
 $jmlhalaman=ceil($jmldata/$batas);
