@@ -69,4 +69,32 @@
         echo json_encode($row);
     }
 
+
+    if($_GET['act'] == 'agenda'){
+
+        $batas=10;
+        $halaman=$_GET['halaman'];
+        if(empty($halaman)){
+            $posisi=0;
+            $halaman=1;
+        }else{
+            $posisi=($halaman-1)*$batas;
+        }
+        $sql = mysqli_query($koneksi,"select * from agenda limit $posisi,$batas");
+        $row = array();
+        while($data = mysqli_fetch_assoc($sql)){
+            $row[] = array(
+                "id_agenda"=> $data['id_agenda'],
+                "nama_agenda"=> $data['nama_agenda'],
+                "tanggal_agenda"=> $data['tanggal_agenda'],
+                "tanggal_selesai"=> $data['tanggal_selesai'],
+                "jam"=> $data['jam'],
+                "foto"=> "agenda/small_".$data['foto'],
+                "keterangan"=> $data['keterangan']
+            );
+        }
+        echo json_encode($row);
+    }
+
+
 ?>
