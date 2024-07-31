@@ -58,7 +58,7 @@
 
 
     if($_GET['act'] == 'detailgallery'){
-        $sql = mysqli_query($koneksi,"select * from galeri where id = '".$_GET['id']."'");
+        $sql = mysqli_query($koneksi,"select * from galeri where id_galeri = '".$_GET['id']."'");
         $data = mysqli_fetch_assoc($sql);
         $row = array(
             "id_galeri"=> $data['id_galeri'],
