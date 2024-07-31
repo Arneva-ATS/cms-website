@@ -55,7 +55,7 @@
             $row[] = array(
                 "id_galeri"=> $data['id_galeri'],
                 "id_kategori"=> convert_id_kategori_gallery($data['id_kategori']),
-                "foto"=> "galeri/".$data['foto'],
+                "foto"=> "galeri/small_".$data['foto'],
                 "keterangan"=> $data['keterangan']
             );
         }
