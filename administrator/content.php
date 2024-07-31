@@ -807,7 +807,7 @@ echo"
 <form method=POST action='aksi.php?act=tambah_berita' enctype='multipart/form-data'>
 <table border=1 cellpadding=5 cellspacing=0 style='border-collapse:collapse;' width=100%>
 <tr><td>Kategori Informasi</td><td><select name='id_kategori'>";
-$sql=mysqli_query($koneksi,"select * from kategori");
+$sql=mysqli_query($koneksi,"select * from kategori_berita");
 while($data=mysqli_fetch_array($sql)){
 echo"<option value='$data[id_kategori]'>$data[nama_kategori]</option>";
 }
@@ -835,7 +835,7 @@ echo"
 <input type=hidden name='id_berita' value='$data[id_berita]'>
 <table border=1 cellpadding=5 cellspacing=0 style='border-collapse:collapse;' width=100%>
 <tr><td>Kategori Berita</td><td><select name='id_kategori'>";
-$query=mysqli_query($koneksi,"select * from kategori");
+$query=mysqli_query($koneksi,"select * from kategori_berita");
 while($rows=mysqli_fetch_array($query)){
 if($rows['id_kategori']==$data['id_kategori']){
 echo"<option value='$rows[id_kategori]' selected>$rows[nama_kategori]</option>";
