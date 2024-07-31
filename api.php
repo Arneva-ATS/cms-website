@@ -57,6 +57,30 @@
     }
 
 
+    if($_GET['act'] == 'gallery'){
+
+        $batas=10;
+        $halaman=$_GET['halaman'];
+        if(empty($halaman)){
+            $posisi=0;
+            $halaman=1;
+        }else{
+            $posisi=($halaman-1)*$batas;
+        }
+        $sql = mysqli_query($koneksi,"select * from galeri limit $posisi,$batas");
+        $row = array();
+        while($data = mysqli_fetch_assoc($sql)){
+            $row[] = array(
+                "id_galeri"=> $data['id_galeri'],
+                "id_kategori"=> convert_id_kategori_gallery($data['id_kategori']),
+                "foto"=> "galeri/small_".$data['foto'],
+                "keterangan"=> $data['keterangan']
+            );
+        }
+        echo json_encode($row);
+    }    
+
+    
     if($_GET['act'] == 'detailgallery'){
         $sql = mysqli_query($koneksi,"select * from galeri where id_galeri = '".$_GET['id']."'");
         $data = mysqli_fetch_assoc($sql);
