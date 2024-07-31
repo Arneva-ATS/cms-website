@@ -15,78 +15,6 @@ $tgl=date("D,d-M-Y | H:i:s");
 echo"<h3 style='border-bottom:1px solid #000;'>Welcome</h3> Selamat Datang <b>$_SESSION[nama]</b> <br> Anda Login Sebagai : <b> ".ucwords($_SESSION['status_user'])." </b><br> Silahkan Olah Modul Disamping ! <br> Tanggal Akses Anda : $tgl";
 }
 
-if($_GET['menu']=='menu'){
-$no=1;
-echo"<fieldset  style='border-bottom:0px;border-left:0px;border-right:0px;'><legend> <b> MANAJEMEN MENU </b> </legend></fieldset>
-<a href='?menu=tambah_menu'><input type=button value='Tambah'></a><p></p>
-<table width=100% cellpadding=5 cellspacing=0 style='border-collapse:collapse;' border=1>
-<tr bgcolor=#006699 style='color:#fff;'><td>No</td><td>Nama Menu</td><td>Link</td><td>Aktif</td><td>Publish</td><td>Status Menu</td><td>Edit</td><td>Hapus</td></tr>";
-$sql=mysqli_query($koneksi,"select * from menu");
-while($data=mysqli_fetch_array($sql)){
-if(($no%2)==0){
-$warna="#dedede";
-}else{
-$warna="#fff";
-}
-echo"<tr bgcolor=$warna><td>$no</td><td>$data[nama_menu]</td><td>$data[link]</td><td>$data[aktif]</td><td>$data[publish]</td><td>$data[status_menu]</td><td><a href='?menu=edit_menu&id=$data[id_menu]'><input type=button value=Edit></a></td><td><a href=\"aksi.php?act=hapus_menu&id=$data[id_menu]\" onclick=\"return confirm('Yakin Mau Hapus $data[nama_menu] ini ?');\"><input type=button value=Hapus></a></td></tr>";
-$no++;
-}
-echo"</table><br><br>
-<font size=2><b>Catatan</b></font> <br>
-<font size=2><b>&bull; untuk admin : aktif=Y, Publish=N dan Status Menu=Admin</b></font><br>
-<font size=2><b>&bull; untuk user : Aktif=Y, publish=Y dan Status Menu=Admin</b></font><br>
-<font size=2><b>&bull; untuk client  : Aktif=Y, publish=N dan Status Menu=User</b></font><br>
-";
-}
-
-if($_GET['menu']=='tambah_menu'){
-echo"
-<fieldset  style='border-bottom:0px;border-left:0px;border-right:0px;'><legend> <b> TAMBAH MENU </b> </legend></fieldset>
-<form method=POST action='aksi.php?act=tambah_menu'>
-<table border=1 cellpadding=5 cellspacing=0 style='border-collapse:collapse;'>
-<tr><td>Nama Menu</td><td><input type=text name='nama_menu'></td></tr>
-<tr><td>Link Menu</td><td><input type=text name='link'></td></tr>
-<tr><td>Aktif Menu</td><td><input type=radio name='aktif' value='Y' checked>Y<input type=radio name='aktif' value='N'>N</td></tr>
-<tr><td>Publish Menu</td><td><input type=radio name='publish' value='Y' checked>Y<input type=radio name='publish' value='N'>N</td></tr>
-<tr><td>Status Menu</td><td><input type=radio name='status_menu' value='admin' checked>admin<input type=radio name='status_menu' value='user'>user</td></tr>
-<tr><td></td><td><input type=submit value=simpan> <input type=button value=cancel onclick=self.history.back();></td></tr>
-</table>
-</form>
-";
-}
-
-if($_GET['menu']=='edit_menu'){
-$data=mysqli_fetch_array(mysqli_query($koneksi,"select * from menu where id_menu='$_GET[id]'"));
-echo"
-<fieldset  style='border-bottom:0px;border-left:0px;border-right:0px;'><legend> <b> EDIT MENU </b> </legend></fieldset>
-<form method=POST action='aksi.php?act=edit_menu'>
-<input type=hidden name='id_menu' value='$data[id_menu]'>
-<table border=1 cellpadding=5 cellspacing=0 style='border-collapse:collapse;'>
-<tr><td>ID Menu</td><td><input type=text name='id_menu' value='$data[id_menu]' size=1 disabled></td></tr>
-<tr><td>Nama Menu</td><td><input type=text name='nama_menu' value='$data[nama_menu]'></td></tr>
-<tr><td>Link Menu</td><td><input type=text name='link' value='$data[link]'></td></tr>";
-if($data['aktif']=='Y'){
-echo"<tr><td>Aktif Menu</td><td><input type=radio name='aktif' value='Y' checked>Y<input type=radio name='aktif' value='N'>N</td></tr>";
-}else{
-echo"<tr><td>Aktif Menu</td><td><input type=radio name='aktif' value='Y'>Y<input type=radio name='aktif' value='N' checked>N</td></tr>";
-}
-if($data['publish']=='Y'){
-echo"<tr><td>Publish Menu</td><td><input type=radio name='publish' value='Y' checked>Y<input type=radio name='publish' value='N'>N</td></tr>";
-}else{
-echo"<tr><td>Publish Menu</td><td><input type=radio name='publish' value='Y'>Y<input type=radio name='publish' value='N' checked>N</td></tr>";
-}
-if($data['status_menu']=='admin'){
-echo"<tr><td>Status Menu</td><td><input type=radio name='status_menu' value='admin' checked>admin<input type=radio name='status_menu' value='user'>user</td></tr>";
-}else{
-echo"<tr><td>Status Menu</td><td><input type=radio name='status_menu' value='admin'>admin<input type=radio name='status_menu' value='user' checked>user</td></tr>";
-}
-echo"<tr><td></td><td><input type=submit value=simpan> <input type=button value=cancel onclick=self.history.back();></td></tr>
-</table>
-</form>
-";
-}
-
-
 if($_GET['menu']=='kontak'){
 $data=mysqli_fetch_array(mysqli_query($koneksi,"select * from kontak where id_kontak='1'"));
 echo"
@@ -311,7 +239,7 @@ echo"<fieldset  style='border-bottom:0px;border-left:0px;border-right:0px;'><leg
 <a href='?menu=tambah_kategori_berita'><input type=button value='Tambah'></a><p></p>
 <table width=100% cellpadding=5 cellspacing=0 style='border-collapse:collapse;' border=1>
 <tr bgcolor=#006699 style='color:#fff;'><td>ID Kategori</td><td>Nama Kategori</td><td>Edit</td><td>Hapus</td></tr>";
-$sql=mysqli_query($koneksi,"select * from kategori limit $posisi,$batas");
+$sql=mysqli_query($koneksi,"select * from kategori_berita limit $posisi,$batas");
 while($data=mysqli_fetch_array($sql)){
 if(($no%2)==0){
 $warna="#dedede";
@@ -324,7 +252,7 @@ $no++;
 echo"</table>";
 
 echo"<br> Halaman : ";
-$query=mysqli_num_rows(mysqli_query($koneksi,"select * from kategori"));
+$query=mysqli_num_rows(mysqli_query($koneksi,"select * from kategori_berita"));
 $jumlah=ceil($query/$batas);
 
 for($i=1;$i<=$jumlah;$i++){
@@ -353,7 +281,7 @@ echo"
 }
 
 if($_GET['menu']=='edit_kategori_berita'){
-$data=mysqli_fetch_array(mysqli_query($koneksi,"select * from kategori where id_kategori='$_GET[id]'"));
+$data=mysqli_fetch_array(mysqli_query($koneksi,"select * from kategori_berita where id_kategori='$_GET[id]'"));
 echo"
 <fieldset  style='border-bottom:0px;border-left:0px;border-right:0px;'><legend> <b> EDIT KATEGORI BERITA </b> </legend></fieldset>
 <form method=POST action='aksi.php?act=edit_kategori_berita'>
@@ -463,6 +391,49 @@ echo"<option value='$i'>$i</option>";
 echo"</select>
 
 </td></tr>
+
+<tr><td>Tanggal Selesai</td><td>
+
+<select name='tanggal_selesai'>";
+$tgl=date("d");
+for($i=1;$i<=31;$i++){
+if($i == $tgl){
+echo"<option value='$i' selected>$i</option>";
+}else{
+echo"<option value='$i'>$i</option>";
+}
+}
+echo"</select>
+
+<select name='bulan_selesai'>";
+$nm_bln=array(1=> "Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember");
+
+$bln=date("m");
+for($i=1;$i<=12;$i++){
+if($i == $bln){
+echo"<option value='$i' selected>$nm_bln[$i]</option>";
+}else{
+echo"<option value='$i'>$nm_bln[$i]</option>";
+}
+}
+
+echo"</select>
+
+<select name='tahun_selesai'>";
+
+$thn=date("Y");
+for($i=2012;$i<=2025;$i++){
+if($i == $thn){
+echo"<option value='$i' selected>$i</option>";
+}else{
+echo"<option value='$i'>$i</option>";
+}
+}
+
+echo"</select>
+
+</td></tr>
+<tr><td valign=top>Jam Agenda</td><td><input type=time name='jam'></td></tr>
 <tr><td valign=top>Foto</td><td><input type=file name='foto'></td></tr>
 <tr><td valign=top>Keterangan</td><td><textarea name='keterangan' cols=50 id='loko'></textarea></td></tr>
 <tr><td></td><td><input type=submit value='Simpan'> <input type=button value='Cancel' onclick=self.history.back()></td></tr>
@@ -518,9 +489,53 @@ echo"<option value='$i'>$i</option>";
 }
 }
 
+echo"</select>";
+
+
+echo "<tr><td>Tanggal Selesai</td><td>
+
+<select name='tanggal_selesai'>";
+$tgl_sls=substr($data['tanggal_selesai'],8,2);
+  for($i=1;$i<=31;$i++){
+  if($i == $tgl_sls){
+  echo"<option value='$i' selected>$i</option>";
+  }else{
+  echo"<option value='$i'>$i</option>";
+  }
+}
+echo"</select>
+
+<select name='bulan_selesai'>";
+$nm_bln_sls=array(1=> "Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember");
+
+$bln_sls=substr($data['tanggal_selesai'],5,2);
+for($i=1;$i<=12;$i++){
+if($i == $bln_sls){
+echo"<option value='$i' selected>$nm_bln_sls[$i]</option>";
+}else{
+echo"<option value='$i'>$nm_bln_sls[$i]</option>";
+}
+}
+
+
+echo"</select>
+
+<select name='tahun_selesai'>";
+
+$thn_sls=substr($data['tanggal_selesai'],0,4);
+for($i=2012;$i<=2025;$i++){
+  if($i == $thn_sls){
+  echo"<option value='$i' selected>$i</option>";
+  }else{
+  echo"<option value='$i'>$i</option>";
+  }
+}
 echo"</select>
 
 </td></tr>
+<tr><td valign=top>Jam Agenda</td><td><input type=time name='jam' value='$data[jam]'></td></tr>";
+
+echo"</td></tr>
 <tr><td valign=top>Foto</td><td><img src='../agenda/small_$data[foto]' width=100></td></tr>
 <tr><td valign=top>Foto</td><td><input type=file name='foto'></td></tr>
 <tr><td valign=top>Keterangan</td><td><textarea name='keterangan' cols=50 id='loko'>$data[keterangan]</textarea></td></tr>
@@ -841,105 +856,6 @@ echo"
 
 echo"</table>
 ";
-}
-
-if($_GET['menu']=='module'){
-
-$no=1;
-echo"<fieldset  style='border-bottom:0px;border-left:0px;border-right:0px;'><legend> <b> MANAJEMEN MODULE </b> </legend></fieldset>
-<table width=100% cellpadding=5 cellspacing=0 style='border-collapse:collapse;' border=1>
-<tr bgcolor=#006699 style='color:#fff;'><td>ID Module</td><td>Nama Module</td><td>Status</td><td>Aktifkan</td><td>Blok</td></tr>";
-$sql=mysqli_query($koneksi,"select * from module");
-while($data=mysqli_fetch_array($sql)){
-if(($no%2)==0){
-$warna="#dedede";
-}else{
-$warna="#fff";
-}
-echo"<tr bgcolor=$warna><td>$no</td><td>$data[module]</td><td>$data[status]</td><td><a href='aksi.php?act=aktifkan&id=$data[id_module]'><input type=button value='Aktifkan'></a></td><td><a href='aksi.php?act=blok&id=$data[id_module]'><input type=button value='Blok'></a></td></tr>";
-$no++;
-}
-echo"</table><br><br>";
-echo"<b><font size=2> Catatan : <br> &bull; untuk menggaktifkan/menonaktifkan modul sebelah kanan user bisa memilih aktifkan/blok</font></b>";
-
-
-}
-
-if($_GET['menu']=='identitas'){
-$data=mysqli_fetch_array(mysqli_query($koneksi,"select * from identitas_web where id_identitas='1'"));
-echo"
-<fieldset  style='border-bottom:0px;border-left:0px;border-right:0px;'><legend> <b> EDIT IDENTITAS WEB </b> </legend></fieldset>
-<form method=POST action='aksi.php?act=edit_identitas' enctype='multipart/form-data'>
-<input type=hidden name='id_identitas' value='$data[id_identitas]'>
-<table border=1 cellpadding=5 cellspacing=0 style='border-collapse:collapse;' width=100%>";
-echo"
-<tr><td>Id Identitas</td><td><input type=text name='id_identitas' value='$data[id_identitas]' size=1 disabled></td></tr>
-<tr><td>Title</td><td><input type=text name='title' value='$data[title]' size=40></td></tr>
-<tr><td valign=top>Header Web</td><td><img src='../header/$data[header]' width=200></td></tr>
-<tr><td>Header</td><td><input type=file name='header'> )* Ukuran Header : 800px x 360px </td></tr>
-<tr><td>Footer</td><td><input type=text name='footer' value='$data[footer]' size=50></td></tr>
-<tr><td></td><td><input type=submit value=Simpan> <input type=button value=Cancel onclick=self.history.back();></td></tr>
-";
-
-echo"</table></form>";
-}
-
-
-if($_GET['menu']=='files'){
-echo"<fieldset  style='border-bottom:0px;border-left:0px;border-right:0px;'><legend> <b> MANAJEMEN FILES </b> </legend></fieldset>
-<a href='?menu=tambah_files'><input type=submit value='Tambah'></a><p></p>";
-echo"<table border=1 cellpadding=4 cellspacing=0 width=100% style='border-collapse:collapse;'>
-<tr bgcolor=#006699 style='color:#fff;'><td>Kode Files</td><td>Judul Files</td><td>External Link</td><td>Files</td><td>Hapus</td></tr>";
-$no=1;
-$batas=10;
-$halaman=$_GET['halaman'];
-if(empty($halaman)){
-$posisi=0;
-$halaman=1;
-}else{
-$posisi=($halaman-1)*$batas;
-}
-$sql=mysqli_query($koneksi,"select * from files limit $posisi,$batas");
-while($data=mysqli_fetch_array($sql)){
-if(($no%2)==0){
-$warna="#dedede";
-}else{
-$warna="#fff";
-}
-echo"<tr bgcolor='$warna'><td>$no</td><td>$data[judul_files]</td><td>$data[link]</td><td><a href='../files/$data[nama_files]' target='_blank'>$data[nama_files]</a></td><td><a href=\"aksi.php?act=hapus_files&id=$data[id_files]&nama_files=$data[nama_files]\" onclick=\"return confirm('Yakin Mau Hapus $data[nama_files]?');\"><input type='button' value='Hapus'></a></td></tr>";
-$no++;
-}
-echo"</table>";
-
-$query=mysqli_num_rows(mysqli_query($koneksi,"select * from files"));
-$jum=ceil($query/$batas);
-
-echo"<br> halaman : ";
-
-for($i=1;$i<=$jum;$i++)
-if($i != $halaman){
-echo"<a href='?menu=files&halaman=$i'> $i |</a>";
-}else{
-echo"<b> $i |</b>";
-}
-}
-
-if($_GET['menu']=='tambah_files'){
-
-echo"<fieldset  style='border-bottom:0px;border-left:0px;border-right:0px;'><legend> <b> TAMBAH FILES </b> </legend></fieldset>";
-echo"
-<form method=POST action='aksi.php?act=tambah_files' enctype='multipart/form-data'>
-<table border=1 cellpadding=5 cellspacing=0 style='border-collapse:collapse;' width=100%>
-<tr><td>Judul Files</td><td><input type=text name='judul_files'></td></tr>
-<tr><td>External Link</td><td><input type=text name='link'> )* jika diambil dari web lain !</td></tr>
-<tr><td>Tambah Files</td><td><input type=file name='nama_files'></td></tr>
-<tr><td></td><td><input type=submit value=Tambah> <input type=button value=Cencel onclick=self.history.back();></td></tr>
-</table>
-</form>
-";
-
-echo"<p><i>Jika Diambil dari website lain , masukan link dari website lain ke external link, dan tambah file dikosongkan. </i></p>";
-echo"<p><i>Jika Diambil dari Komputer , Upload file dengan mengklik tambah files, external link di kosongkan. </i></p>";
 }
 
 //--------------------------------------------------------------------------END OF CONTENT------------------------------------------------------

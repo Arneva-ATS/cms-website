@@ -1,10 +1,11 @@
 <?php
-if($_SESSION['status_user']=='admin'){
-$sql=mysqli_query($koneksi,"select * from menu where aktif='Y' and status_menu='admin'");
-}else{
-$sql=mysqli_query($koneksi,"select * from menu where publish='Y' and status_menu='admin'");
-}
-while($data=mysqli_fetch_array($sql)){
-echo"<li><a href='$data[link]' title='$data[nama_menu]'> &#187 $data[nama_menu]</b></a></li>";
-}
+echo "<li><a href='?menu=home' title='Home'> &#187 Home</b></a></li>";
+echo "<li><a href='?menu=profil' title='Profil'> &#187 Profil</b></a></li>";
+echo "<li><a href='?menu=galeri' title='Galeri'> &#187 Galeri</b></a></li>";
+echo "<li><a href='?menu=kontak' title='Kontak'> &#187 Kontak</b></a></li>";
+echo "<li><a href='?menu=kategori_berita' title='Kategori Berita'> &#187 Kategori Berita</b></a></li>";
+echo "<li><a href='?menu=kategori_galeri' title='Kategori Galeri'> &#187 Kategori Galeri</b></a></li>";
+echo "<li><a href='?menu=agenda' title='Agenda'> &#187 Agenda</b></a></li>";
+echo "<li><a href='?menu=user' title='User/Pengguna'> &#187 User/Pengguna</b></a></li>";
+echo "<li><a href='?menu=berita' title='Berita'> &#187 Berita</b></a></li>";
 ?>

@@ -1,7 +1,6 @@
 <?php
 session_start();
 include"../config/koneksi.php";
-$identitas=mysqli_fetch_array(mysqli_query($koneksi,"select * from identitas_web where id_identitas='1'"));
 if(empty($_SESSION['id_user'])){
 echo"
 <body style='background:url(img/background-login.png); background-size:cover;'>

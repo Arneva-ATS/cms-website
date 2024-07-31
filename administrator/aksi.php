@@ -106,17 +106,17 @@ header('location:home.php?menu=kategori_galeri');
 }
 
 if($_GET['act']=='tambah_kategori_berita'){
-mysqli_query($koneksi,"insert into kategori(nama_kategori)values('$_POST[nama_kategori]')");
+mysqli_query($koneksi,"insert into kategori_berita(nama_kategori)values('$_POST[nama_kategori]')");
 header('location:home.php?menu=kategori_berita');
 }
 
 if($_GET['act']=='edit_kategori_berita'){
-mysqli_query($koneksi,"update kategori set nama_kategori='$_POST[nama_kategori]' where id_kategori='$_POST[id_kategori]'");
+mysqli_query($koneksi,"update kategori_berita set nama_kategori='$_POST[nama_kategori]' where id_kategori='$_POST[id_kategori]'");
 header('location:home.php?menu=kategori_berita');
 }
 
 if($_GET['act']=='hapus_kategori_berita'){
-mysqli_query($koneksi,"delete from kategori where id_kategori='$_GET[id]'");
+mysqli_query($koneksi,"delete from kategori_berita where id_kategori='$_GET[id]'");
 header('location:home.php?menu=kategori_berita');
 }
 
@@ -127,10 +127,10 @@ $tipe_file==$_FILES['foto']['type'];
 $acak=rand(00000,99999);
 $nama_lain=$acak.$nama_file;
 if(empty($lokasi_file)){
-mysqli_query($koneksi,"insert into agenda(nama_agenda,tanggal_agenda,keterangan)values('$_POST[nama_agenda]','$_POST[tahun_agenda]-$_POST[bulan_agenda]-$_POST[tanggal_agenda]','$_POST[keterangan]')");
+mysqli_query($koneksi,"insert into agenda(nama_agenda,tanggal_agenda,tanggal_selesai,jam,keterangan)values('$_POST[nama_agenda]','$_POST[tahun_agenda]-$_POST[bulan_agenda]-$_POST[tanggal_agenda]','$_POST[tahun_selesai]-$_POST[bulan_selesai]-$_POST[tanggal_selesai]','$_POST[jam]','$_POST[keterangan]')");
 }else{
 UploadAgenda($nama_lain);
-mysqli_query($koneksi,"insert into agenda(nama_agenda,tanggal_agenda,foto,keterangan)values('$_POST[nama_agenda]','$_POST[tahun_agenda]-$_POST[bulan_agenda]-$_POST[tanggal_agenda]','$nama_lain','$_POST[keterangan]')");
+mysqli_query($koneksi,"insert into agenda(nama_agenda,tanggal_agenda,tanggal_selesai,jam,foto,keterangan)values('$_POST[nama_agenda]','$_POST[tahun_agenda]-$_POST[bulan_agenda]-$_POST[tanggal_agenda]','$_POST[tahun_selesai]-$_POST[bulan_selesai]-$_POST[tanggal_selesai]','$_POST[jam]','$nama_lain','$_POST[keterangan]')");
 }
 header('location:home.php?menu=agenda');
 }
@@ -150,10 +150,10 @@ $tipe_file==$_FILES['foto']['type'];
 $acak=rand(00000,99999);
 $nama_lain=$acak.$nama_file;
 if(empty($lokasi_file)){
-mysqli_query($koneksi,"update agenda set nama_agenda='$_POST[nama_agenda]',tanggal_agenda='$_POST[tahun_agenda]-$_POST[bulan_agenda]-$_POST[tanggal_agenda]',keterangan='$_POST[keterangan]' where id_agenda='$_POST[id_agenda]'");
+mysqli_query($koneksi,"update agenda set nama_agenda='$_POST[nama_agenda]',tanggal_agenda='$_POST[tahun_agenda]-$_POST[bulan_agenda]-$_POST[tanggal_agenda]',tanggal_selesai='$_POST[tahun_selesai]-$_POST[bulan_selesai]-$_POST[tanggal_selesai]', jam = '$_POST[jam]', keterangan='$_POST[keterangan]' where id_agenda='$_POST[id_agenda]'");
 }else{
 UploadAgenda($nama_lain);
-mysqli_query($koneksi,"update agenda set nama_agenda='$_POST[nama_agenda]',tanggal_agenda='$_POST[tahun_agenda]-$_POST[bulan_agenda]-$_POST[tanggal_agenda]',foto='$nama_lain',keterangan='$_POST[keterangan]' where id_agenda='$_POST[id_agenda]'");
+mysqli_query($koneksi,"update agenda set nama_agenda='$_POST[nama_agenda]',tanggal_agenda='$_POST[tahun_agenda]-$_POST[bulan_agenda]-$_POST[tanggal_agenda]',tanggal_selesai='$_POST[tahun_selesai]-$_POST[bulan_selesai]-$_POST[tanggal_selesai]', jam = '$_POST[jam]',foto='$nama_lain',keterangan='$_POST[keterangan]' where id_agenda='$_POST[id_agenda]'");
 }
 header('location:home.php?menu=agenda');
 }
@@ -266,50 +266,4 @@ unlink("../berita/small_$_GET[foto]");
 header('location:home.php?menu=berita');
 }
 
-if($_GET['act']=='aktifkan'){
-mysqli_query($koneksi,"update module set status='Y' where id_module='$_GET[id]'");
-header('location:home.php?menu=module');
-}
-
-if($_GET['act']=='blok'){
-mysqli_query($koneksi,"update module set status='N' where id_module='$_GET[id]'");
-header('location:home.php?menu=module');
-}
-
-if($_GET['act']=='edit_identitas'){
-$lokasi_file=$_FILES['header']['tmp_name'];
-$nama_file=$_FILES['header']['name'];
-if(empty($lokasi_file)){
-mysqli_query($koneksi,"update identitas_web set title='$_POST[title]',footer='$_POST[footer]' where id_identitas='$_POST[id_identitas]'");
-}else{
-$data=mysqli_fetch_array(mysqli_query($koneksi,"select * from identitas_web where id_identitas='$_POST[id_identitas]'"));
-unlink("../header/$data[header]");
-move_uploaded_file($lokasi_file,"../header/$nama_file");
-mysqli_query($koneksi,"update identitas_web set title='$_POST[title]',header='$nama_file',footer='$_POST[footer]' where id_identitas='$_POST[id_identitas]'");
-}
-header('location:home.php?menu=identitas');
-}
-
-if($_GET['act']=='tambah_files'){
-$lokasi_file=$_FILES['nama_files']['tmp_name'];
-$nama_file=$_FILES['nama_files']['name'];
-if(!empty($lokasi_file)){
-move_uploaded_file($lokasi_file,"../files/$nama_file");
-mysqli_query($koneksi,"insert into files(judul_files,link,nama_files,hits)values('$_POST[judul_files]','-','$nama_file','1')");
-}else{
-mysqli_query($koneksi,"insert into files(judul_files,link,nama_files,hits)values('$_POST[judul_files]','$_POST[link]','','1')");
-}
-header('location:home.php?menu=files');
-}
-
-if($_GET['act']=='hapus_files'){
-$cek=mysqli_fetch_array(mysqli_query($koneksi,"select * from files where id_files='$_GET[id]'"));
-if($cek['nama_files']==''){
-mysqli_query($koneksi,"delete from files where id_files='$_GET[id]'");
-}else{
-mysqli_query($koneksi,"delete from files where id_files='$_GET[id]'");
-unlink("../files/$_GET[nama_files]");
-}
-header('location:home.php?menu=files');
-}
 ?>
