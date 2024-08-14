@@ -15,16 +15,16 @@ if ($_GET['act'] == 'input_profil') {
 		mysqli_query($koneksi, "update profil set keterangan='$_POST[keterangan]' where id_profile='$_POST[id_profile]'");
 	} else {
 
-		if ($tipe_file != "image/jpeg" and $tipe_file != "image/pjpeg") {
-			echo "<script>alert('Upload Gagal, Pastikan File yang di Upload bertipe *.JPG');
-        window.location=('home.php?menu=profil')</script>";
-		} else {
+		// if ($tipe_file != "image/jpeg" and $tipe_file != "image/pjpeg") {
+		// 	echo "<script>alert('Upload Gagal, Pastikan File yang di Upload bertipe *.JPG');
+        // window.location=('home.php?menu=profil')</script>";
+		// } else {
 			$data = mysqli_fetch_array(mysqli_query($koneksi, "select * from profil where id_profile='$_POST[id_profile]'"));
 			unlink("../profil/$data[foto]");
 			unlink("../profil/small_$data[foto]");
 			UploadImage($nama_lain);
 			mysqli_query($koneksi, "update profil set foto='$nama_lain',keterangan='$_POST[keterangan]' where id_profile='$_POST[id_profile]'");
-		}
+		// }
 	}
 	header('location:home.php?menu=profil');
 }
@@ -221,13 +221,13 @@ if ($_GET['act'] == 'tambah_berita') {
 	if (empty($lokasi_file)) {
 		mysqli_query($koneksi, "insert into berita(id_kategori,judul,judul_seo,keterangan,foto,tgl,id_user,username,hits,id_dekopin)values('" . $_POST['id_kategori'] . "','$_POST[judul]','$judul_seo','$_POST[keterangan]','','$tgl','$_SESSION[id_user]','$_SESSION[username]','0','$id_dekopin')");
 	} else {
-		if ($tipe_file != "image/jpeg" and $tipe_file != "image/pjpeg") {
-			echo "<script>alert('Upload Gagal, Pastikan File yang di Upload bertipe *.JPG');
-        window.location=('home.php?menu=tambah_berita')</script>";
-		} else {
+		// if ($tipe_file != "image/jpeg" and $tipe_file != "image/pjpeg") {
+		// 	echo "<script>alert('Upload Gagal, Pastikan File yang di Upload bertipe *.JPG');
+        // window.location=('home.php?menu=tambah_berita')</script>";
+		// } else {
 			UploadBerita($nama_lain);
 			mysqli_query($koneksi, "insert into berita(id_kategori,judul,judul_seo,keterangan,foto,tgl,id_user,username,hits,id_dekopin)values('" . $_POST['id_kategori'] . "','$_POST[judul]','$judul_seo','$_POST[keterangan]','$nama_lain','$tgl','$_SESSION[id_user]','$_SESSION[username]','0','$id_dekopin')");
-		}
+		// }
 	}
 	header('location:home.php?menu=berita');
 }
@@ -245,13 +245,13 @@ if ($_GET['act'] == 'edit_berita') {
 	if (empty($lokasi_file)) {
 		mysqli_query($koneksi, "update berita set id_kategori='$_POST[id_kategori]',judul='$_POST[judul]',judul_seo='$judul_seo',keterangan='$_POST[keterangan]',tgl='$tgl',id_user='$_SESSION[id_user]',username='$_SESSION[username]' where id_berita='$_POST[id_berita]'");
 	} else {
-		if ($tipe_file != "image/jpeg" and $tipe_file != "image/pjpeg") {
-			echo "<script>alert('Upload Gagal, Pastikan File yang di Upload bertipe *.JPG');
-        window.location=('home.php?menu=edit_berita')</script>";
-		} else {
+		// if ($tipe_file != "image/jpeg" and $tipe_file != "image/pjpeg") {
+		// 	echo "<script>alert('Upload Gagal, Pastikan File yang di Upload bertipe *.JPG');
+        // window.location=('home.php?menu=edit_berita')</script>";
+		// } else {
 			UploadBerita($nama_lain);
 			mysqli_query($koneksi, "update berita set id_kategori='$_POST[id_kategori]',judul='$_POST[judul]',judul_seo='$judul_seo',keterangan='$_POST[keterangan]',foto='$nama_lain',tgl='$tgl',id_user='$_SESSION[id_user]',username='$_SESSION[username]' where id_berita='$_POST[id_berita]'");
-		}
+		// }
 	}
 	header('location:home.php?menu=berita');
 }

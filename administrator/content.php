@@ -28,7 +28,7 @@ if (empty($_SESSION['id_user'])) {
 ";
 	}
 
-	if ($_GET['menu'] == 'profil') {
+	if ($_GET['menu'] == 'profil' && $_SESSION['status_user'] !== 'superadmin') {
 
 		$data = mysqli_fetch_array(mysqli_query($koneksi, "select * from profil where id_dekopin='". $_SESSION['id_dekopin']."'"));
 		echo "
@@ -45,7 +45,7 @@ if (empty($_SESSION['id_user'])) {
 ";
 	}
 
-	if ($_GET['menu'] == 'galeri') {
+	if ($_GET['menu'] == 'galeri' && $_SESSION['status_user'] !== 'superadmin') {
 		$batas = 20;
 		$halaman = $_GET['halaman'];
 		if (empty($halaman)) {
@@ -95,7 +95,7 @@ if (empty($_SESSION['id_user'])) {
 		echo "<br><br><font size=2><b>Catatan: Sertakan Foto Berupa JPG/JPEG</b></font>";
 	}
 
-	if ($_GET['menu'] == 'edit_galeri') {
+	if ($_GET['menu'] == 'edit_galeri' && $_SESSION['status_user'] !== 'superadmin') {
 		$data = mysqli_fetch_array(mysqli_query($koneksi, "select * from galeri where id_galeri='$_GET[id]'"));
 		echo "
 <fieldset  style='border-bottom:0px;border-left:0px;border-right:0px;'><legend> <b> EDIT GALERI </b> </legend></fieldset>
@@ -122,7 +122,7 @@ if (empty($_SESSION['id_user'])) {
 ";
 	}
 
-	if ($_GET['menu'] == 'tambah_galeri') {
+	if ($_GET['menu'] == 'tambah_galeri' && $_SESSION['status_user'] !== 'superadmin') {
 
 		echo "
 <fieldset  style='border-bottom:0px;border-left:0px;border-right:0px;'><legend> <b> TAMBAH GALERI </b> </legend></fieldset>
@@ -142,7 +142,7 @@ if (empty($_SESSION['id_user'])) {
 ";
 	}
 
-	if ($_GET['menu'] == 'kategori_galeri') {
+	if ($_GET['menu'] == 'kategori_galeri' && $_SESSION['status_user'] !== 'superadmin') {
 		$batas = 20;
 		$halaman = $_GET['halaman'];
 		if (empty($halaman)) {
@@ -182,7 +182,7 @@ if (empty($_SESSION['id_user'])) {
 		}
 	}
 
-	if ($_GET['menu'] == 'edit_kategori_galeri') {
+	if ($_GET['menu'] == 'edit_kategori_galeri' && $_SESSION['status_user'] !== 'superadmin') {
 		$data = mysqli_fetch_array(mysqli_query($koneksi, "select * from kategori_galeri where id_kategori='$_GET[id]'"));
 		echo "
 <fieldset  style='border-bottom:0px;border-left:0px;border-right:0px;'><legend> <b> EDIT KATEGORI GALERI </b> </legend></fieldset>
@@ -197,7 +197,7 @@ if (empty($_SESSION['id_user'])) {
 ";
 	}
 
-	if ($_GET['menu'] == 'tambah_kategori_galeri') {
+	if ($_GET['menu'] == 'tambah_kategori_galeri' && $_SESSION['status_user'] !== 'superadmin') {
 
 		echo "
 <fieldset  style='border-bottom:0px;border-left:0px;border-right:0px;'><legend> <b> TAMBAH KATEGORI GALERI </b> </legend></fieldset>
@@ -211,7 +211,7 @@ if (empty($_SESSION['id_user'])) {
 	}
 
 
-	if ($_GET['menu'] == 'kategori_berita') {
+	if ($_GET['menu'] == 'kategori_berita' && $_SESSION['status_user'] !== 'superadmin') {
 		$batas = 10;
 		$halaman = $_GET['halaman'];
 		if (empty($halaman)) {
@@ -251,7 +251,7 @@ if (empty($_SESSION['id_user'])) {
 		}
 	}
 
-	if ($_GET['menu'] == 'tambah_kategori_berita') {
+	if ($_GET['menu'] == 'tambah_kategori_berita' && $_SESSION['status_user'] !== 'superadmin') {
 
 		echo "
 <fieldset  style='border-bottom:0px;border-left:0px;border-right:0px;'><legend> <b> TAMBAH KATEGORI BERITA </b> </legend></fieldset>
@@ -264,7 +264,7 @@ if (empty($_SESSION['id_user'])) {
 ";
 	}
 
-	if ($_GET['menu'] == 'edit_kategori_berita') {
+	if ($_GET['menu'] == 'edit_kategori_berita' && $_SESSION['status_user'] !== 'superadmin') {
 		$data = mysqli_fetch_array(mysqli_query($koneksi, "select * from kategori_berita where id_kategori='$_GET[id]'"));
 		echo "
 <fieldset  style='border-bottom:0px;border-left:0px;border-right:0px;'><legend> <b> EDIT KATEGORI BERITA </b> </legend></fieldset>
@@ -279,7 +279,7 @@ if (empty($_SESSION['id_user'])) {
 ";
 	}
 
-	if ($_GET['menu'] == 'agenda') {
+	if ($_GET['menu'] == 'agenda' && $_SESSION['status_user'] !== 'superadmin') {
 
 		$batas = 20;
 		$halaman = $_GET['halaman'];
@@ -328,7 +328,7 @@ if (empty($_SESSION['id_user'])) {
 		}
 	}
 
-	if ($_GET['menu'] == 'tambah_agenda') {
+	if ($_GET['menu'] == 'tambah_agenda' && $_SESSION['status_user'] !== 'superadmin') {
 		echo "
 <fieldset  style='border-bottom:0px;border-left:0px;border-right:0px;'><legend> <b> TAMBAH AGENDA </b> </legend></fieldset>
 <form method=POST action='aksi.php?act=tambah_agenda' enctype='multipart/form-data'>
@@ -426,7 +426,7 @@ if (empty($_SESSION['id_user'])) {
 ";
 	}
 
-	if ($_GET['menu'] == 'edit_agenda') {
+	if ($_GET['menu'] == 'edit_agenda' && $_SESSION['status_user'] !== 'superadmin') {
 		$data = mysqli_fetch_array(mysqli_query($koneksi, "select * from agenda where id_agenda='$_GET[id]'"));
 		echo "
 <fieldset  style='border-bottom:0px;border-left:0px;border-right:0px;'><legend> <b> EDIT AGENDA </b> </legend></fieldset>
@@ -529,7 +529,7 @@ if (empty($_SESSION['id_user'])) {
 ";
 	}
 
-	if ($_GET['menu'] == 'user') {
+	if ($_GET['menu'] == 'user' && $_SESSION['status_user'] !== 'superadmin') {
 
 		$batas = 20;
 		$halaman = $_GET['halaman'];
@@ -570,7 +570,7 @@ if (empty($_SESSION['id_user'])) {
 		}
 	}
 
-	if ($_GET['menu'] == 'edit_user') {
+	if ($_GET['menu'] == 'edit_user' && $_SESSION['status_user'] !== 'superadmin') {
 		$data = mysqli_fetch_array(mysqli_query($koneksi, "select * from user where id_user='$_GET[id]'"));
 		echo "
 <fieldset  style='border-bottom:0px;border-left:0px;border-right:0px;'><legend> <b> EDIT USER </b> </legend></fieldset>
@@ -629,7 +629,7 @@ if (empty($_SESSION['id_user'])) {
 ";
 	}
 
-	if ($_GET['menu'] == 'tambah_user') {
+	if ($_GET['menu'] == 'tambah_user' && $_SESSION['status_user'] !== 'superadmin') {
 
 		echo "
 <fieldset  style='border-bottom:0px;border-left:0px;border-right:0px;'><legend> <b> TAMBAH USER </b> </legend></fieldset>
@@ -681,7 +681,7 @@ if (empty($_SESSION['id_user'])) {
 ";
 	}
 
-	if ($_GET['menu'] == 'berita') {
+	if ($_GET['menu'] == 'berita' && $_SESSION['status_user'] !== 'superadmin') {
 
 		$batas = 10;
 		$halaman = $_GET['halaman'];
@@ -770,7 +770,7 @@ if (empty($_SESSION['id_user'])) {
 		echo " &nbsp; $angka &nbsp; ";
 	}
 
-	if ($_GET['menu'] == 'tambah_berita') {
+	if ($_GET['menu'] == 'tambah_berita' && $_SESSION['status_user'] !== 'superadmin') {
 		echo "
 <fieldset  style='border-bottom:0px;border-left:0px;border-right:0px;'><legend> <b> TAMBAH BERITA </b> </legend></fieldset>
 <form method=POST action='aksi.php?act=tambah_berita' enctype='multipart/form-data'>
@@ -796,7 +796,7 @@ if (empty($_SESSION['id_user'])) {
 ";
 	}
 
-	if ($_GET['menu'] == 'edit_berita') {
+	if ($_GET['menu'] == 'edit_berita' && $_SESSION['status_user'] !== 'superadmin') {
 		$data = mysqli_fetch_array(mysqli_query($koneksi, "select * from berita where id_berita='$_GET[id]'"));
 		echo "
 <fieldset  style='border-bottom:0px;border-left:0px;border-right:0px;'><legend> <b> EDIT BERITA </b> </legend></fieldset>
