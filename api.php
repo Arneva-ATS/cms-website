@@ -19,7 +19,8 @@
         }else{
             $posisi=($halaman-1)*$batas;
         }
-        $sql = mysqli_query($koneksi,"select * from berita limit $posisi,$batas");
+		$id_dekopin = isset($_GET['id_dekopin']) ? $_GET['id_dekopin'] : '';
+        $sql = mysqli_query($koneksi,"select * from berita where id_dekopin='$id_dekopin' limit $posisi,$batas");
         $row = array();
         while($data = mysqli_fetch_assoc($sql)){
             $row[] = array(
@@ -61,13 +62,14 @@
 
         $batas=10;
         $halaman=$_GET['halaman'];
+		$id_dekopin = isset($_GET['id_dekopin']) ? $_GET['id_dekopin'] : '';
         if(empty($halaman)){
             $posisi=0;
             $halaman=1;
         }else{
             $posisi=($halaman-1)*$batas;
         }
-        $sql = mysqli_query($koneksi,"select * from galeri limit $posisi,$batas");
+        $sql = mysqli_query($koneksi,"select * from galeri where id_dekopin='$id_dekopin' limit $posisi,$batas");
         $row = array();
         while($data = mysqli_fetch_assoc($sql)){
             $row[] = array(
@@ -97,6 +99,7 @@
     if($_GET['act'] == 'agenda'){
 
         $batas=10;
+		$id_dekopin = isset($_GET['id_dekopin']) ? $_GET['id_dekopin'] : '';
         $halaman=$_GET['halaman'];
         if(empty($halaman)){
             $posisi=0;
@@ -104,7 +107,7 @@
         }else{
             $posisi=($halaman-1)*$batas;
         }
-        $sql = mysqli_query($koneksi,"select * from agenda limit $posisi,$batas");
+        $sql = mysqli_query($koneksi,"select * from agenda where id_dekopin='$id_dekopin' limit $posisi,$batas");
         $row = array();
         while($data = mysqli_fetch_assoc($sql)){
             $row[] = array(
@@ -119,6 +122,29 @@
         }
         echo json_encode($row);
     }
-
-
+	if($_GET['act'] == 'profil'){
+		$id_dekopin = isset($_GET['id_dekopin']) ? $_GET['id_dekopin'] : '';
+        $sql = mysqli_query($koneksi,"select * from profil where id_dekopin='$id_dekopin'");
+        $row = array();
+        while($data = mysqli_fetch_assoc($sql)){
+            $row[] = array(
+                "id_profile" => $data['id_profile'],
+                "foto"=> $data['foto'],
+                "keterangan"=> $data['keterangan'],
+            );
+        }
+        echo json_encode($row);
+    }
+	if($_GET['act'] == 'kontak'){
+		$id_dekopin = isset($_GET['id_dekopin']) ? $_GET['id_dekopin'] : '';
+        $sql = mysqli_query($koneksi,"select * from kontak where id_dekopin='$id_dekopin'");
+        $row = array();
+        while($data = mysqli_fetch_assoc($sql)){
+            $row[] = array(
+                "id_kontak" => $data['id_kontak'],
+				"keterangan"=> $data['keterangan'],
+            );
+        }
+        echo json_encode($row);
+    }
 ?>
