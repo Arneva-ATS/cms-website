@@ -38,7 +38,12 @@ if (empty($_SESSION['id_user'])) {
 <table>
 <tr><td valign=top> Struktur Organisasi : </td><td><img src='../profil/small_$data[foto]' width=400></td></tr>
 <tr><td> Upload Foto Struktur Organisasi : </td><td><input type=file name='foto'></td></tr>
-<tr><td valign=top> Keterangan : </td><td><textarea name='keterangan' cols=55 rows=20 id='loko'>$data[keterangan]</textarea></td></tr>
+<tr><td valign=top> Deskripsi Utama: </td><td><textarea name='deskripsi_utama' cols='55' rows='20' id='loko3'>$data[deskripsi_utama]</textarea></td></tr>
+<tr><td valign=top> Visi : </td><td><textarea name='visi' cols='55' rows='20' id='loko'>$data[visi]</textarea></td></tr>
+<tr><td valign=top> Misi : </td><td><textarea name='misi' cols='55' rows='20' id='loko1'>$data[misi]</textarea></td></tr>
+<tr><td valign=top> Identitas Kami : </td><td><textarea name='identitas_kami' cols='55' rows='20' id='loko2'>$data[identitas_kami]</textarea></td></tr>
+<tr><td valign=top> Deskripsi Section 1 : </td><td><textarea name='deskripsi_sec_1' cols='55' rows='20' id='loko4'>$data[deskripsi_sec_1]</textarea></td></tr>
+<tr><td valign=top> Deskripsi Section 2 : </td><td><textarea name='deskripsi_sec_2' cols='55' rows='20' id='loko5'>$data[deskripsi_sec_2]</textarea></td></tr>
 <tr><td></td><td><input type=submit value='Simpan'> <input type=button value='Cancel' onclick='javascript:history.go(-1)'></td></tr>
 </table>
 </form>
