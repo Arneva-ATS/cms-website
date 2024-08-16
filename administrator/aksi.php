@@ -11,27 +11,81 @@ if ($_GET['act'] == 'input_profil') {
 	$tipe_file = $_FILES['foto']['type'];
 	$acak = rand(00000, 99999);
 	$nama_lain = $acak . $nama_file;
+	// $path = '/profil/' . $nama_lain;
 	if (empty($lokasi_file)) {
-		mysqli_query($koneksi, "update profil set keterangan='$_POST[keterangan]' where id_profile='$_POST[id_profile]'");
+		mysqli_query($koneksi, "update profil set nama_dekopin='$_POST[nama_dekopin]',identitas_kami='$_POST[identitas_kami]',misi='$_POST[misi]',visi='$_POST[visi]',deskripsi_utama='$_POST[deskripsi_utama]',deskripsi_sec_1='$_POST[deskripsi_sec_1]',deskripsi_sec_2='$_POST[deskripsi_sec_2]' where id_profile='$_POST[id_profile]'");
 	} else {
 
 		// if ($tipe_file != "image/jpeg" and $tipe_file != "image/pjpeg") {
 		// 	echo "<script>alert('Upload Gagal, Pastikan File yang di Upload bertipe *.JPG');
-        // window.location=('home.php?menu=profil')</script>";
+		// window.location=('home.php?menu=profil')</script>";
 		// } else {
-			$data = mysqli_fetch_array(mysqli_query($koneksi, "select * from profil where id_profile='$_POST[id_profile]'"));
-			unlink("../profil/$data[foto]");
-			unlink("../profil/small_$data[foto]");
-			UploadImage($nama_lain);
-			mysqli_query($koneksi, "update profil set foto='$nama_lain',keterangan='$_POST[keterangan]' where id_profile='$_POST[id_profile]'");
+		$data = mysqli_fetch_array(mysqli_query($koneksi, "select * from profil where id_profile='$_POST[id_profile]'"));
+		unlink("../profil/$data[foto]");
+		unlink("../profil/small_$data[foto]");
+		UploadImage($nama_lain);
+		mysqli_query($koneksi, "update profil set foto='$nama_lain',identitas_kami='$_POST[identitas_kami]',misi='$_POST[misi]',visi='$_POST[visi]',deskripsi_utama='$_POST[deskripsi_utama]',deskripsi_sec_1='$_POST[deskripsi_sec_1]',deskripsi_sec_2='$_POST[deskripsi_sec_2]' where id_profile='$_POST[id_profile]'");
 		// }
 	}
 	header('location:home.php?menu=profil');
 }
 
 if ($_GET['act'] == 'input_kontak') {
-	mysqli_query($koneksi, "update kontak set keterangan='$_POST[keterangan]' where id_kontak='$_POST[id_kontak]'");
+	mysqli_query($koneksi, "update kontak set lokasi='$_POST[lokasi]',nomor_telepon='$_POST[nomor_telepon]',email='$_POST[email]' where id_kontak='$_POST[id_kontak]'");
 	header('location:home.php?menu=kontak');
+}
+
+if ($_GET['act'] == 'input_pengurus') {
+    $id_dekopin = $_SESSION['id_dekopin'];
+    $no = $_POST['no'];
+    $jabatan = $_POST['jabatan'];
+    $id_tabel = $_POST['id_tabel'];
+    $nama = $_POST['nama'];
+
+    foreach ($no as $index => $value) {
+        $jabatan_value = $jabatan[$index];
+        $id_tabel_value = $id_tabel[$index] ?? '';
+        $nama_value = $nama[$index];
+        // Check if id_tabel_value is not empty
+        if (!empty($id_tabel_value)) {
+            // Attempt to update the record
+            $query_update = "UPDATE pengurus SET no='$value', jabatan='$jabatan_value', nama='$nama_value' WHERE id='$id_tabel_value'";
+            $update = mysqli_query($koneksi, $query_update);
+        } else {
+            $query_insert = "INSERT INTO pengurus (id_dekopin, no, jabatan, nama) VALUES ('$id_dekopin', '$value', '$jabatan_value', '$nama_value')";
+            $insert = mysqli_query($koneksi, $query_insert);        
+		}
+
+    }
+
+    // Redirect or show a success message
+    header('location:home.php?menu=pengurus');
+}
+if ($_GET['act'] == 'input_notaris') {
+    $id_dekopin = $_SESSION['id_dekopin'];
+    $nama = $_POST['nama'];
+	$no = $_POST['no'];
+    $id_tabel = $_POST['id_tabel'];
+    $alamat = $_POST['alamat'];
+
+    foreach ($no as $index => $value) {
+        $alamat_value = $alamat[$index];
+		$nama_value = $nama[$index];
+        $id_tabel_value = $id_tabel[$index] ?? '';
+		echo $id_tabel_value;
+        // Check if id_tabel_value is not empty
+        // if (!empty($id_tabel_value)) {
+        //     // Attempt to update the record
+        //     $query_update = "UPDATE notaris SET no='$no',alamat='$alamat_value', nama='$nama_value' WHERE id='$id_tabel_value'";
+        //     $update = mysqli_query($koneksi, $query_update);
+        // } else {
+        //     $query_insert = "INSERT INTO notaris (id_dekopin, alamat, nama,no) VALUES ('$id_dekopin', '$alamat_value','$nama_value','$value')";
+        //     $insert = mysqli_query($koneksi, $query_insert);        
+		// }
+
+    }
+    // Redirect or show a success message
+    // header('location:home.php?menu=notaris');
 }
 
 if ($_GET['act'] == 'edit_galeri') {
@@ -223,10 +277,10 @@ if ($_GET['act'] == 'tambah_berita') {
 	} else {
 		// if ($tipe_file != "image/jpeg" and $tipe_file != "image/pjpeg") {
 		// 	echo "<script>alert('Upload Gagal, Pastikan File yang di Upload bertipe *.JPG');
-        // window.location=('home.php?menu=tambah_berita')</script>";
+		// window.location=('home.php?menu=tambah_berita')</script>";
 		// } else {
-			UploadBerita($nama_lain);
-			mysqli_query($koneksi, "insert into berita(id_kategori,judul,judul_seo,keterangan,foto,tgl,id_user,username,hits,id_dekopin)values('" . $_POST['id_kategori'] . "','$_POST[judul]','$judul_seo','$_POST[keterangan]','$nama_lain','$tgl','$_SESSION[id_user]','$_SESSION[username]','0','$id_dekopin')");
+		UploadBerita($nama_lain);
+		mysqli_query($koneksi, "insert into berita(id_kategori,judul,judul_seo,keterangan,foto,tgl,id_user,username,hits,id_dekopin)values('" . $_POST['id_kategori'] . "','$_POST[judul]','$judul_seo','$_POST[keterangan]','$nama_lain','$tgl','$_SESSION[id_user]','$_SESSION[username]','0','$id_dekopin')");
 		// }
 	}
 	header('location:home.php?menu=berita');
@@ -247,10 +301,10 @@ if ($_GET['act'] == 'edit_berita') {
 	} else {
 		// if ($tipe_file != "image/jpeg" and $tipe_file != "image/pjpeg") {
 		// 	echo "<script>alert('Upload Gagal, Pastikan File yang di Upload bertipe *.JPG');
-        // window.location=('home.php?menu=edit_berita')</script>";
+		// window.location=('home.php?menu=edit_berita')</script>";
 		// } else {
-			UploadBerita($nama_lain);
-			mysqli_query($koneksi, "update berita set id_kategori='$_POST[id_kategori]',judul='$_POST[judul]',judul_seo='$judul_seo',keterangan='$_POST[keterangan]',foto='$nama_lain',tgl='$tgl',id_user='$_SESSION[id_user]',username='$_SESSION[username]' where id_berita='$_POST[id_berita]'");
+		UploadBerita($nama_lain);
+		mysqli_query($koneksi, "update berita set id_kategori='$_POST[id_kategori]',judul='$_POST[judul]',judul_seo='$judul_seo',keterangan='$_POST[keterangan]',foto='$nama_lain',tgl='$tgl',id_user='$_SESSION[id_user]',username='$_SESSION[username]' where id_berita='$_POST[id_berita]'");
 		// }
 	}
 	header('location:home.php?menu=berita');

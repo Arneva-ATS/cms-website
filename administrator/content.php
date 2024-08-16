@@ -21,7 +21,9 @@ if (empty($_SESSION['id_user'])) {
 <form method=POST action='aksi.php?act=input_kontak'>
 <input type=hidden name='id_kontak' value='$data[id_kontak]'>
 <table>
-<tr><td valign=top> Kontak : </td><td><textarea name='keterangan' cols=55 rows=20 id='loko'>$data[keterangan]</textarea></td></tr>
+<tr><td valign=top> Lokasi : </td><td><textarea name='lokasi' cols=55 rows=20 id='loko'>$data[lokasi]</textarea></td></tr>
+<tr><td valign=top> Nomor Telepon : </td><td><textarea name='nomor_telepon' cols=55 rows=20 id='loko1'>$data[nomor_telepon]</textarea></td></tr>
+<tr><td valign=top> Email : </td><td><textarea name='email' cols=55 rows=20 id='loko2'>$data[email]</textarea></td></tr>
 <tr><td></td><td><input type=submit value='Simpan'> <input type=button value='Cancel' onclick='javascript:history.go(-1)'></td></tr>
 </table>
 </form>
@@ -38,18 +40,141 @@ if (empty($_SESSION['id_user'])) {
 <table>
 <tr><td valign=top> Struktur Organisasi : </td><td><img src='../profil/small_$data[foto]' width=400></td></tr>
 <tr><td> Upload Foto Struktur Organisasi : </td><td><input type=file name='foto'></td></tr>
-<tr><td valign=top> Deskripsi Utama: </td><td><textarea name='deskripsi_utama' cols='55' rows='20' id='loko3'>$data[deskripsi_utama]</textarea></td></tr>
+<tr><td valign=top> Nama Dekopin: </td><td><textarea name='nama_dekopin' cols='55' rows='20'>$data[nama_dekopin]</textarea></td></tr>
+<tr><td valign=top> Deskripsi Utama: </td><td><textarea name='deskripsi_utama' cols='55' rows='20'>$data[deskripsi_utama]</textarea></td></tr>
 <tr><td valign=top> Visi : </td><td><textarea name='visi' cols='55' rows='20' id='loko'>$data[visi]</textarea></td></tr>
 <tr><td valign=top> Misi : </td><td><textarea name='misi' cols='55' rows='20' id='loko1'>$data[misi]</textarea></td></tr>
-<tr><td valign=top> Identitas Kami : </td><td><textarea name='identitas_kami' cols='55' rows='20' id='loko2'>$data[identitas_kami]</textarea></td></tr>
-<tr><td valign=top> Deskripsi Section 1 : </td><td><textarea name='deskripsi_sec_1' cols='55' rows='20' id='loko4'>$data[deskripsi_sec_1]</textarea></td></tr>
-<tr><td valign=top> Deskripsi Section 2 : </td><td><textarea name='deskripsi_sec_2' cols='55' rows='20' id='loko5'>$data[deskripsi_sec_2]</textarea></td></tr>
+<tr><td valign=top> Identitas Kami : </td><td><textarea name='identitas_kami' cols='55' rows='20' id='loko4'>$data[identitas_kami]</textarea></td></tr>
+<tr><td valign=top> Deskripsi Section 1 : </td><td><textarea name='deskripsi_sec_1' cols='55' rows='20' id='loko2'>$data[deskripsi_sec_1]</textarea></td></tr>
+<tr><td valign=top> Deskripsi Section 2 : </td><td><textarea name='deskripsi_sec_2' cols='55' rows='20'>$data[deskripsi_sec_2]</textarea></td></tr>
 <tr><td></td><td><input type=submit value='Simpan'> <input type=button value='Cancel' onclick='javascript:history.go(-1)'></td></tr>
 </table>
 </form>
 ";
 	}
+	if ($_GET['menu'] == 'pengurus' && $_SESSION['status_user'] !== 'superadmin') {
 
+		// Query to fetch all pengurus data associated with id_dekopin
+		$result = mysqli_query($koneksi, "SELECT * FROM pengurus WHERE id_dekopin='" . $_SESSION['id_dekopin'] . "'");
+	
+		echo "
+		<fieldset style='border-bottom:0px;border-left:0px;border-right:0px;'>
+			<legend><b> MANAJEMEN SUSUNAN PENGURUS </b></legend>
+		</fieldset>
+		<form method='POST' action='aksi.php?act=input_pengurus' enctype='multipart/form-data'>
+			<table>
+				<tr>
+					<td valign='top'>Susunan Pengurus:</td>
+					<td>
+						<table border='1' width='100%' id='pengurusTable'>
+							<thead>
+								<tr>
+									<th>No</th>
+									<th>Bidang / Jabatan</th>
+									<th>Nama</th>
+								</tr>
+							</thead>
+							<tbody>";
+							
+							// Loop through each row of the result set
+							while ($row = mysqli_fetch_assoc($result)) {
+								echo "
+
+								<tr>
+									<td hidden><input type='text' name='id_tabel[]' value='" . $row['id'] . "'></td>
+									<td><input type='text' name='no[]' value='" . $row['no'] . "'></td>
+									<td><input type='text' name='jabatan[]' value='" . $row['jabatan'] . "'></td>
+									<td><input type='text' name='nama[]' value='" . $row['nama'] . "'></td>
+								</tr>";
+							}
+	
+		echo "
+							</tbody>
+						</table>
+						<button type='button' onclick='addRow()'>Tambah Baris</button>
+					</td>
+				</tr>
+				<tr><td></td><td><input type='submit' value='Simpan'> <input type='button' value='Cancel' onclick='javascript:history.go(-1)'></td></tr>
+			</table>
+		</form>
+		<script>
+			function addRow() {
+				var table = document.getElementById('pengurusTable').getElementsByTagName('tbody')[0];
+				var newRow = table.insertRow();
+	
+				var cell1 = newRow.insertCell(0);
+				var cell2 = newRow.insertCell(1);
+				var cell3 = newRow.insertCell(2);
+
+				cell1.innerHTML = \"<input type='text' name='no[]' value=''>\";
+				cell2.innerHTML = \"<input type='text' name='jabatan[]' value=''>\";
+				cell3.innerHTML = \"<input type='text' name='nama[]' value=''>\";
+			}
+		</script>
+		";
+	}
+	
+	if ($_GET['menu'] == 'notaris' && $_SESSION['status_user'] !== 'superadmin') {
+
+		// Query to fetch all pengurus data associated with id_dekopin
+		$result = mysqli_query($koneksi, "SELECT * FROM notaris WHERE id_dekopin='" . $_SESSION['id_dekopin'] . "'");
+	
+		echo "
+		<fieldset style='border-bottom:0px;border-left:0px;border-right:0px;'>
+			<legend><b> MANAJEMEN NOTARIS </b></legend>
+		</fieldset>
+		<form method='POST' action='aksi.php?act=input_notaris' enctype='multipart/form-data'>
+			<table>
+				<tr>
+					<td valign='top'>Notaris:</td>
+					<td>
+						<table border='1' width='100%' id='notarisTable'>
+							<thead>
+								<tr>
+									<th>No</th>
+									<th>Nama</th>
+									<th>Alamat</th>
+								</tr>
+							</thead>
+							<tbody>";
+							
+							// Loop through each row of the result set
+							while ($row = mysqli_fetch_assoc($result)) {
+								echo "
+
+								<tr>
+									<td hidden><input type='text' name='id_tabel[]' value='" . $row['id'] . "' disabled></td>
+									<td><input type='text' name='no[]' value='" . $row['no'] . "'></td>
+									<td><input type='text' name='nama[]' value='" . $row['nama'] . "'></td>
+									<td><input type='text' name='alamat[]' value='" . $row['alamat'] . "'></td>
+								</tr>";
+							}
+	
+		echo "
+							</tbody>
+						</table>
+						<button type='button' onclick='addRowNotaris()'>Tambah Baris</button>
+					</td>
+				</tr>
+				<tr><td></td><td><input type='submit' value='Simpan'> <input type='button' value='Cancel' onclick='javascript:history.go(-1)'></td></tr>
+			</table>
+		</form>
+		<script>
+			function addRowNotaris() {
+				var table = document.getElementById('notarisTable').getElementsByTagName('tbody')[0];
+				var newRow = table.insertRow();
+	
+				var cell1 = newRow.insertCell(0);
+				var cell2 = newRow.insertCell(1);
+				var cell3 = newRow.insertCell(2);
+
+				cell1.innerHTML = \"<input type='text' name='no[]' value=''>\";
+				cell2.innerHTML = \"<input type='text' name='nama[]' value=''>\";
+				cell3.innerHTML = \"<input type='text' name='alamat[]' value=''>\";
+			}
+		</script>
+		";
+	}
 	if ($_GET['menu'] == 'galeri' && $_SESSION['status_user'] !== 'superadmin') {
 		$batas = 20;
 		$halaman = $_GET['halaman'];

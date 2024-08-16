@@ -38,7 +38,7 @@ function UploadImage($fupload_name) {
   $src_height = imagesy($im_src);
 
   // Simpan dalam versi small 350 pixel
-  $dst_width = 350;
+  $dst_width = 500;
   $dst_height = ($dst_width / $src_width) * $src_height;
 
   // Proses perubahan ukuran
