@@ -146,6 +146,29 @@
         }
         echo json_encode($row);
     }
+	if($_GET['act'] == 'notaris'){
+
+        $batas=10;
+		$id_dekopin = isset($_GET['id_dekopin']) ? $_GET['id_dekopin'] : '';
+        $halaman=$_GET['halaman'];
+        if(empty($halaman)){
+            $posisi=0;
+            $halaman=1;
+        }else{
+            $posisi=($halaman-1)*$batas;
+        }
+        $sql = mysqli_query($koneksi,"select * from notaris where id_dekopin='$id_dekopin' limit $posisi,$batas");
+        $row = array();
+        while($data = mysqli_fetch_assoc($sql)){
+            $row[] = array(
+                "id_notaris"=> $data['id'],
+                "nama"=> $data['nama'],
+                "alamat"=> $data['alamat'],
+                "no"=> $data['no'],
+            );
+        }
+        echo json_encode($row);
+    }
 	if($_GET['act'] == 'profil'){
 		$id_dekopin = isset($_GET['id_dekopin']) ? $_GET['id_dekopin'] : '';
         $sql = mysqli_query($koneksi,"select * from profil where id_dekopin='$id_dekopin'");

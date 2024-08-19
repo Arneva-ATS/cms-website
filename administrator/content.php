@@ -66,9 +66,9 @@ if (empty($_SESSION['id_user'])) {
 				<tr>
 					<td valign='top'>Susunan Pengurus:</td>
 					<td>
-						<table border='1' width='100%' id='pengurusTable'>
+						<table  width=100% cellpadding=5 cellspacing=0 style='border-collapse:collapse;' border=1 id='pengurusTable'>
 							<thead>
-								<tr>
+								<tr bgcolor=#006699 style='color:#fff;'>
 									<th>No</th>
 									<th>Bidang / Jabatan</th>
 									<th>Nama</th>
@@ -82,9 +82,9 @@ if (empty($_SESSION['id_user'])) {
 
 								<tr>
 									<td hidden><input type='text' name='id_tabel[]' value='" . $row['id'] . "'></td>
-									<td><input type='text' name='no[]' value='" . $row['no'] . "'></td>
-									<td><input type='text' name='jabatan[]' value='" . $row['jabatan'] . "'></td>
-									<td><input type='text' name='nama[]' value='" . $row['nama'] . "'></td>
+									<td><input type='text' style='text-align: center;' name='no[]' value='" . $row['no'] . "'></td>
+									<td><input type='text' style='text-align: center;' name='jabatan[]' value='" . $row['jabatan'] . "'></td>
+									<td><input type='text' style='text-align: center;' name='nama[]' value='" . $row['nama'] . "'></td>
 								</tr>";
 							}
 	
@@ -128,9 +128,9 @@ if (empty($_SESSION['id_user'])) {
 				<tr>
 					<td valign='top'>Notaris:</td>
 					<td>
-						<table border='1' width='100%' id='notarisTable'>
+						<table width=100% cellpadding=5 cellspacing=0 style='border-collapse:collapse;' border=1 id='notarisTable'>
 							<thead>
-								<tr>
+								<tr bgcolor=#006699 style='color:#fff;'>
 									<th>No</th>
 									<th>Nama</th>
 									<th>Alamat</th>
@@ -143,9 +143,9 @@ if (empty($_SESSION['id_user'])) {
 								echo "
 
 								<tr>
-									<td hidden><input type='text' name='id_tabel[]' value='" . $row['id'] . "' disabled></td>
-									<td><input type='text' name='no[]' value='" . $row['no'] . "'></td>
-									<td><input type='text' name='nama[]' value='" . $row['nama'] . "'></td>
+									<td hidden><input type='text' name='id_tabel[]' value='" . $row['id'] . "'></td>
+									<td><input type='text' style='text-align: center;' name='no[]' value='" . $row['no'] . "'></td>
+									<td><input type='text' style='text-align: center;' name='nama[]' value='" . $row['nama'] . "'></td>
 									<td><input type='text' name='alamat[]' value='" . $row['alamat'] . "'></td>
 								</tr>";
 							}
@@ -700,6 +700,87 @@ if (empty($_SESSION['id_user'])) {
 		}
 	}
 
+	if ($_GET['menu'] == 'user' && $_SESSION['status_user'] == 'superadmin') {
+
+		$batas = 20;
+		$halaman = $_GET['halaman'];
+		if (empty($halaman)) {
+			$posisi = 0;
+			$halaman = 1;
+		} else {
+			$posisi = ($halaman - 1) * $batas;
+		}
+
+		$no = $posisi + 1;
+		echo "<fieldset  style='border-bottom:0px;border-left:0px;border-right:0px;'><legend> <b> MANAJEMEN USER </b> </legend></fieldset>
+<a href='?menu=tambah_user'><input type=button value='Tambah'></a><p></p>
+<table width=100% cellpadding=5 cellspacing=0 style='border-collapse:collapse;' border=1>
+<tr bgcolor=#006699 style='color:#fff;'><td>No</td><td>Username</td><td>Email</td><td>Status User</td><td>Edit</td><td>Hapus</td></tr>";
+		$sql = mysqli_query($koneksi, "select * from user limit $posisi,$batas");
+		while ($data = mysqli_fetch_array($sql)) {
+			if (($no % 2) == 0) {
+				$warna = "#dedede";
+			} else {
+				$warna = "#fff";
+			}
+			echo "<tr bgcolor=$warna><td>$no</td><td>$data[username]</td><td>$data[email]</td><td>$data[status_user]</td><td><a href='?menu=edit_user&id=$data[id_user]'><input type=button value=Edit></a></td><td><a href=\"aksi.php?act=hapus_user&id=$data[id_user]&foto=$data[foto]\" onclick=\"return confirm('Yakin Mau Hapus $data[nama] ?');\"><input type=button value=Hapus></a></td></tr>";
+			$no++;
+		}
+		echo "</table>";
+
+		echo "<br> Halaman : ";
+		$query = mysqli_num_rows(mysqli_query($koneksi, "select * from user where id_dekopin='$_SESSION[id_dekopin]'"));
+		$jumlah = ceil($query / $batas);
+
+		for ($i = 1; $i <= $jumlah; $i++) {
+			if ($i != $halaman) {
+				echo "<a href='?menu=user&halaman=$i'> $i | </a>";
+			} else {
+				echo "<b> $i | </b>";
+			}
+		}
+	}
+	if ($_GET['menu'] == 'dekopin' && $_SESSION['status_user'] == 'superadmin') {
+
+		$batas = 20;
+		$halaman = $_GET['halaman'];
+		if (empty($halaman)) {
+			$posisi = 0;
+			$halaman = 1;
+		} else {
+			$posisi = ($halaman - 1) * $batas;
+		}
+
+		$no = $posisi + 1;
+		echo "<fieldset  style='border-bottom:0px;border-left:0px;border-right:0px;'><legend> <b> MANAJEMEN DEKOPIN </b> </legend></fieldset>
+<a href='?menu=tambah_dekopin'><input type=button value='Tambah'></a><p></p>
+<table width=100% cellpadding=5 cellspacing=0 style='border-collapse:collapse;' border=1>
+<tr bgcolor=#006699 style='color:#fff;'><td>No</td><td>Nama Dekopin</td><td>Status Aktif</td><td>Edit</td><td>Hapus</td></tr>";
+		$sql = mysqli_query($koneksi, "select * from dekopin limit $posisi,$batas");
+		while ($data = mysqli_fetch_array($sql)) {
+			if (($no % 2) == 0) {
+				$warna = "#dedede";
+			} else {
+				$warna = "#fff";
+			}
+			echo "<tr bgcolor=$warna><td>$data[id_dekopin]</td><td>$data[nama_dekopin]</td><td>$data[status_active]</td><td><a href='?menu=edit_dekopin&id=$data[id_dekopin]'><input type=button value=Edit></a></td><td><a href=\"aksi.php?act=hapus_dekopin&id=$data[id]&foto=$data[foto]\" onclick=\"return confirm('Yakin Mau Hapus $data[nama] ?');\"><input type=button value=Hapus></a></td></tr>";
+			$no++;
+		}
+		echo "</table>";
+
+		echo "<br> Halaman : ";
+		$query = mysqli_num_rows(mysqli_query($koneksi, "select * from user where id_dekopin='$_SESSION[id_dekopin]'"));
+		$jumlah = ceil($query / $batas);
+
+		for ($i = 1; $i <= $jumlah; $i++) {
+			if ($i != $halaman) {
+				echo "<a href='?menu=user&halaman=$i'> $i | </a>";
+			} else {
+				echo "<b> $i | </b>";
+			}
+		}
+	}
+
 	if ($_GET['menu'] == 'edit_user' && $_SESSION['status_user'] !== 'superadmin') {
 		$data = mysqli_fetch_array(mysqli_query($koneksi, "select * from user where id_user='$_GET[id]'"));
 		echo "
@@ -758,6 +839,81 @@ if (empty($_SESSION['id_user'])) {
 </form>
 ";
 	}
+	if ($_GET['menu'] == 'edit_user' && $_SESSION['status_user'] == 'superadmin') {
+		$data = mysqli_fetch_array(mysqli_query($koneksi, "select * from user where id_user='$_GET[id]'"));
+		echo "
+<fieldset  style='border-bottom:0px;border-left:0px;border-right:0px;'><legend> <b> EDIT USER </b> </legend></fieldset>
+<form method=POST action='aksi.php?act=edit_user_admin' enctype='multipart/form-data'>
+<input type=hidden name='id_user' value='$data[id_user]'>
+<table border=1 cellpadding=5 cellspacing=0 style='border-collapse:collapse;' width=100%>
+<tr><td>Id User</td><td><input type=text name='id_user' value='$data[id_user]' size=1 disabled></td></tr>
+<tr><td>Username</td><td><input type=text name='username' value='$data[username]'></td></tr>
+<tr><td>Nama</td><td><input type=text name='nama' value='$data[nama]'></td></tr>
+<tr><td>Password</td><td><input type=password name='password'></td></tr>
+<tr><td>Email</td><td><input type=text name='email' value='$data[email]'></td></tr>
+<tr><td>Alamat</td><td><textarea name='alamat' cols=50 id='loko'> $data[alamat]</textarea></td></tr>
+<tr><td>Dekopin</td><td><select name='id_dekopin'><option value='0' hidden>Silahkan pilih dekopin</option>";
+		$sql = mysqli_query($koneksi, "SELECT * from dekopin");
+		while ($dekopin = mysqli_fetch_array($sql)) {
+			echo "<option value='$dekopin[id_dekopin]'"; echo $dekopin["id_dekopin"] == $data["id_dekopin"] ? "selected" : ""; echo">$dekopin[nama_dekopin]</option>";
+		}
+echo "</select></td></tr><tr><td>Tanggal_lahir</td><td>
+
+<select name='tanggal_lahir'>";
+		$tgl = substr($data['tanggal_lahir'], 8, 2);
+		for ($i = 1; $i <= 31; $i++) {
+			if ($i == $tgl) {
+				echo "<option value='$i' selected>$i</option>'";
+			} else {
+				echo "<option value='$i'>$i</option>'";
+			}
+		}
+		echo "</select><select name='bulan_lahir'>";
+		$nm_bln = array(1 => "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember");
+		$bln = substr($data['tanggal_lahir'], 5, 2);
+		for ($i = 1; $i <= 12; $i++) {
+			if ($i == $bln) {
+				echo "<option value='$i' selected>$nm_bln[$i]</option>'";
+			} else {
+				echo "<option value='$i'>$nm_bln[$i]</option>'";
+			}
+		}
+		echo "</select><select name='tahun_lahir'>";
+
+		$thn = substr($data['tanggal_lahir'], 0, 4);
+		for ($i = 1930; $i <= 2025; $i++) {
+			if ($i == $thn) {
+				echo "<option value='$i' selected>$i</option>'";
+			} else {
+				echo "<option value='$i'>$i</option>'";
+			}
+		}
+		echo "</select></td></tr>
+<tr><td valign=top>Foto</td><td><img src='akun/small_$data[foto]' width=150></td></tr>
+<tr><td>Foto</td><td><input type=file name='foto'></td></tr>
+<tr><td>Status User</td><td><input type=radio name='status_user' value='admin'"; echo $data["status_user"] == "admin" ? 'checked': ''; echo ">Admin<input type=radio name='status_user' value='user'"; echo $data["status_user"] == "user" ? 'checked': ''; echo " >User<input type=radio name='status_user' value='superadmin'"; echo $data["status_user"] == "superadmin" ? 'checked' : ''; echo ">Super Admin</td></tr>";
+		echo "
+<tr><td></td><td><input type=submit value=simpan> <input type=button value=cencel onclick=self.history.back();></td></tr>
+</table>
+</form>
+";
+	}
+	if ($_GET['menu'] == 'edit_dekopin' && $_SESSION['status_user'] == 'superadmin') {
+		$data = mysqli_fetch_array(mysqli_query($koneksi, "select * from dekopin where id_dekopin='$_GET[id]'"));
+		echo "
+<fieldset  style='border-bottom:0px;border-left:0px;border-right:0px;'><legend> <b> EDIT DEKOPIN </b> </legend></fieldset>
+<form method=POST action='aksi.php?act=edit_dekopin' enctype='multipart/form-data'>
+<input type=hidden name='id_dekopin' value='$data[id_dekopin]'>
+<table border=1 cellpadding=5 cellspacing=0 style='border-collapse:collapse;' width=100%>
+<tr><td>Id Dekopin</td><td><input type=text name='id_dekopin' value='$data[id_dekopin]' size=1 disabled></td></tr>
+<tr><td>Nama Dekopin</td><td><input type=text name='nama_dekopin' value='$data[nama_dekopin]'></td></tr>
+<tr><td>Status Dekopin</td><td><select type=text name='status_active' value='$data[status_active]'><option value=1"; echo $data["status_active"] == 1 ? "selected": ""; echo ">Aktif</option><option value=0 "; echo $data["status_active"] == 0? "selected": ""; echo ">Tidak Aktif</option></select></td></tr>";
+		echo "
+<tr><td></td><td><input type=submit value=simpan> <input type=button value=cencel onclick=self.history.back();></td></tr>
+</table>
+</form>
+";
+	}
 
 	if ($_GET['menu'] == 'tambah_user' && $_SESSION['status_user'] !== 'superadmin') {
 
@@ -810,7 +966,76 @@ if (empty($_SESSION['id_user'])) {
 </form>
 ";
 	}
+	if ($_GET['menu'] == 'tambah_user' && $_SESSION['status_user'] == 'superadmin') {
 
+		echo "
+<fieldset  style='border-bottom:0px;border-left:0px;border-right:0px;'><legend> <b> TAMBAH USER </b> </legend></fieldset>
+<form method=POST action='aksi.php?act=tambah_user_admin' enctype='multipart/form-data'>
+<table border=1 cellpadding=5 cellspacing=0 style='border-collapse:collapse;' width=100%>
+<tr><td>Username</td><td><input type=text name='username'></td></tr>
+<tr><td>Nama</td><td><input type=text name='nama'></td></tr>
+<tr><td>Password</td><td><input type=password name='password'></td></tr>
+<tr><td>Email</td><td><input type=email name='email'></td></tr>
+<tr><td>Alamat</td><td><textarea name='alamat' cols=50 id='loko'></textarea></td></tr>
+<tr><td>Dekopin</td><td><select name='id_dekopin'><option value='0' hidden>Silahkan pilih dekopin</option>";
+		$sql = mysqli_query($koneksi, "SELECT * from dekopin");
+		while ($data = mysqli_fetch_array($sql)) {
+			echo "<option value='$data[id_dekopin]'>$data[nama_dekopin]</option>";
+		}
+echo "</select></td></tr><tr><td>Tanggal_lahir</td><td>
+
+<select name='tanggal_lahir'>";
+		$tgl = date("d");
+		for ($i = 1; $i <= 31; $i++) {
+			if ($i == $tgl) {
+				echo "<option value='$i' selected>$i</option>'";
+			} else {
+				echo "<option value='$i'>$i</option>'";
+			}
+		}
+		echo "</select><select name='bulan_lahir'>";
+		$nm_bln = array(1 => "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember");
+		$bln = date("m");
+		for ($i = 1; $i <= 12; $i++) {
+			if ($i == $bln) {
+				echo "<option value='$i' selected>$nm_bln[$i]</option>'";
+			} else {
+				echo "<option value='$i'>$nm_bln[$i]</option>'";
+			}
+		}
+		echo "</select><select name='tahun_lahir'>";
+
+		$thn = date("Y");
+		for ($i = 1930; $i <= 2025; $i++) {
+			if ($i == $thn) {
+				echo "<option value='$i' selected>$i</option>'";
+			} else {
+				echo "<option value='$i'>$i</option>'";
+			}
+		}
+		echo "</select></td></tr>
+<tr><td>Foto</td><td><input type=file name='foto'></td></tr>";
+		echo "<tr><td>Status User</td><td><input type=radio name='status_user' value='admin' checked>Admin<input type=radio name='status_user' value='user'>User<input type=radio name='status_user' value='superadmin'>Superadmin</td></tr>";
+		echo "
+<tr><td></td><td><input type=submit value=simpan> <input type=button value=cencel onclick=self.history.back();></td></tr>
+</table>
+</form>
+";
+	}
+	if ($_GET['menu'] == 'tambah_dekopin' && $_SESSION['status_user'] == 'superadmin') {
+
+		echo "
+<fieldset  style='border-bottom:0px;border-left:0px;border-right:0px;'><legend> <b> TAMBAH DEKOPIN </b> </legend></fieldset>
+<form method=POST action='aksi.php?act=tambah_dekopin' enctype='multipart/form-data'>
+<table border=1 cellpadding=5 cellspacing=0 style='border-collapse:collapse;' width=100%>
+<tr><td>Nama Dekopin</td><td><input type=text name='nama dekopin'></td></tr>
+<tr><td>Status Aktif</td><td><select type=text name='status_active'><option value=1>Aktif</option><option value=0>Tidak Aktif</option></select></td></tr>";
+		echo "
+<tr><td></td><td><input type=submit value=simpan> <input type=button value=cencel onclick=self.history.back();></td></tr>
+</table>
+</form>
+";
+	}
 	if ($_GET['menu'] == 'berita' && $_SESSION['status_user'] !== 'superadmin') {
 
 		$batas = 10;

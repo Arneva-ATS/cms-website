@@ -36,56 +36,53 @@ if ($_GET['act'] == 'input_kontak') {
 }
 
 if ($_GET['act'] == 'input_pengurus') {
-    $id_dekopin = $_SESSION['id_dekopin'];
-    $no = $_POST['no'];
-    $jabatan = $_POST['jabatan'];
-    $id_tabel = $_POST['id_tabel'];
-    $nama = $_POST['nama'];
+	$id_dekopin = $_SESSION['id_dekopin'];
+	$no = $_POST['no'];
+	$jabatan = $_POST['jabatan'];
+	$id_tabel = $_POST['id_tabel'];
+	$nama = $_POST['nama'];
 
-    foreach ($no as $index => $value) {
-        $jabatan_value = $jabatan[$index];
-        $id_tabel_value = $id_tabel[$index] ?? '';
-        $nama_value = $nama[$index];
-        // Check if id_tabel_value is not empty
-        if (!empty($id_tabel_value)) {
-            // Attempt to update the record
-            $query_update = "UPDATE pengurus SET no='$value', jabatan='$jabatan_value', nama='$nama_value' WHERE id='$id_tabel_value'";
-            $update = mysqli_query($koneksi, $query_update);
-        } else {
-            $query_insert = "INSERT INTO pengurus (id_dekopin, no, jabatan, nama) VALUES ('$id_dekopin', '$value', '$jabatan_value', '$nama_value')";
-            $insert = mysqli_query($koneksi, $query_insert);        
+	foreach ($no as $index => $value) {
+		$jabatan_value = $jabatan[$index];
+		$id_tabel_value = $id_tabel[$index] ?? '';
+		$nama_value = $nama[$index];
+		// Check if id_tabel_value is not empty
+		if (!empty($id_tabel_value)) {
+			// Attempt to update the record
+			$query_update = "UPDATE pengurus SET no='$value', jabatan='$jabatan_value', nama='$nama_value' WHERE id='$id_tabel_value'";
+			$update = mysqli_query($koneksi, $query_update);
+		} else {
+			$query_insert = "INSERT INTO pengurus (id_dekopin, no, jabatan, nama) VALUES ('$id_dekopin', '$value', '$jabatan_value', '$nama_value')";
+			$insert = mysqli_query($koneksi, $query_insert);
 		}
+	}
 
-    }
-
-    // Redirect or show a success message
-    header('location:home.php?menu=pengurus');
+	// Redirect or show a success message
+	header('location:home.php?menu=pengurus');
 }
 if ($_GET['act'] == 'input_notaris') {
-    $id_dekopin = $_SESSION['id_dekopin'];
-    $nama = $_POST['nama'];
+	$id_dekopin = $_SESSION['id_dekopin'];
+	$nama = $_POST['nama'];
 	$no = $_POST['no'];
-    $id_tabel = $_POST['id_tabel'];
-    $alamat = $_POST['alamat'];
+	$id_tabel = $_POST['id_tabel'];
+	$alamat = $_POST['alamat'];
 
-    foreach ($no as $index => $value) {
-        $alamat_value = $alamat[$index];
+	foreach ($no as $index => $value) {
+		$alamat_value = $alamat[$index];
 		$nama_value = $nama[$index];
-        $id_tabel_value = $id_tabel[$index] ?? '';
-		echo $id_tabel_value;
-        // Check if id_tabel_value is not empty
-        // if (!empty($id_tabel_value)) {
-        //     // Attempt to update the record
-        //     $query_update = "UPDATE notaris SET no='$no',alamat='$alamat_value', nama='$nama_value' WHERE id='$id_tabel_value'";
-        //     $update = mysqli_query($koneksi, $query_update);
-        // } else {
-        //     $query_insert = "INSERT INTO notaris (id_dekopin, alamat, nama,no) VALUES ('$id_dekopin', '$alamat_value','$nama_value','$value')";
-        //     $insert = mysqli_query($koneksi, $query_insert);        
-		// }
-
-    }
-    // Redirect or show a success message
-    // header('location:home.php?menu=notaris');
+		$id_tabel_value = $id_tabel[$index] ?? '';
+		// Check if id_tabel_value is not empty
+		if (!empty($id_tabel_value)) {
+			// Attempt to update the record
+			$query_update = "UPDATE notaris SET no='$value',alamat='$alamat_value', nama='$nama_value' WHERE id='$id_tabel_value'";
+			$update = mysqli_query($koneksi, $query_update);
+		} else {
+			$query_insert = "INSERT INTO notaris (id_dekopin, alamat, nama,no) VALUES ('$id_dekopin', '$alamat_value','$nama_value','$value')";
+			$insert = mysqli_query($koneksi, $query_insert);
+		}
+	}
+	// Redirect or show a success message
+	header('location:home.php?menu=notaris');
 }
 
 if ($_GET['act'] == 'edit_galeri') {
@@ -235,6 +232,32 @@ if ($_GET['act'] == 'edit_user') {
 	header('location:home.php?menu=user');
 }
 
+if ($_GET['act'] == 'edit_user_admin') {
+	$lokasi_file = $_FILES['foto']['tmp_name'];
+	$nama_file = $_FILES['foto']['name'];
+	$acak = rand(00000, 99999);
+	$nama_lain = $acak . $nama_file;
+	$id_dekopin = $_POST['id_dekopin'];
+	if (empty($lokasi_file) and empty($_POST['password'])) {
+		mysqli_query($koneksi, "update user set username='$_POST[username]',nama='$_POST[nama]',email='$_POST[email]',alamat='$_POST[alamat]',tanggal_lahir='$_POST[tahun_lahir]-$_POST[bulan_lahir]-$_POST[tanggal_lahir]',status_user='$_POST[status_user]',id_dekopin='$id_dekopin' where id_user='$_POST[id_user]'");
+	} elseif (empty($_POST['password'])) {
+		UploadFoto($nama_lain);
+		mysqli_query($koneksi, "update user set username='$_POST[username]',nama='$_POST[nama]',email='$_POST[email]',alamat='$_POST[alamat]',tanggal_lahir='$_POST[tahun_lahir]-$_POST[bulan_lahir]-$_POST[tanggal_lahir]',foto='$nama_lain',status_user='$_POST[status_user]',id_dekopin='$id_dekopin' where id_user='$_POST[id_user]'");
+	} elseif (empty($lokasi_file)) {
+		$password = md5($_POST['password']);
+		mysqli_query($koneksi, "update user set username='$_POST[username]',nama='$_POST[nama]',password='$password',email='$_POST[email]',alamat='$_POST[alamat]',tanggal_lahir='$_POST[tahun_lahir]-$_POST[bulan_lahir]-$_POST[tanggal_lahir]',status_user='$_POST[status_user]',id_dekopin='$id_dekopin' where id_user='$_POST[id_user]'");
+	} else {
+		$password = md5($_POST['password']);
+		UploadFoto($nama_lain);
+		mysqli_query($koneksi, "update user set username='$_POST[username]',nama='$_POST[nama]',password='$password',email='$_POST[email]',alamat='$_POST[alamat]',tanggal_lahir='$_POST[tahun_lahir]-$_POST[bulan_lahir]-$_POST[tanggal_lahir]',foto='$nama_lain',status_user='$_POST[status_user]',id_dekopin='$id_dekopin' where id_user='$_POST[id_user]'");
+	}
+	header('location:home.php?menu=user');
+}
+if ($_GET['act'] == 'edit_dekopin') {
+	mysqli_query($koneksi, "update dekopin set nama_dekopin='$_POST[nama_dekopin]',status_active='$_POST[status_active]' where id_dekopin='$_POST[id_dekopin]'");
+	header('location:home.php?menu=dekopin');
+}
+
 if ($_GET['act'] == 'tambah_user') {
 	$lokasi_file = $_FILES['foto']['tmp_name'];
 	$nama_file = $_FILES['foto']['name'];
@@ -251,7 +274,26 @@ if ($_GET['act'] == 'tambah_user') {
 	}
 	header('location:home.php?menu=user');
 }
-
+if ($_GET['act'] == 'tambah_user_admin') {
+	$lokasi_file = $_FILES['foto']['tmp_name'];
+	$nama_file = $_FILES['foto']['name'];
+	$acak = rand(00000, 99999);
+	$nama_lain = $acak . $nama_file;
+	$id_dekopin = $_POST['id_dekopin'];
+	if (empty($lokasi_file)) {
+		$password = md5($_POST['password']);
+		mysqli_query($koneksi, "insert into user(username,nama,password,email,alamat,tanggal_lahir,status_user,id_dekopin)values('$_POST[username]','$_POST[nama]','$password','$_POST[email]','$_POST[alamat]','$_POST[tahun_lahir]-$_POST[bulan_lahir]-$_POST[tanggal_lahir]','$_POST[status_user]', '$id_dekopin')");
+	} else {
+		UploadFoto($nama_lain);
+		$password = md5($_POST['password']);
+		mysqli_query($koneksi, "insert into user(username,nama,password,email,alamat,tanggal_lahir,foto,status_user,id_dekopin)values('$_POST[username]','$_POST[nama]','$password','$_POST[email]','$_POST[alamat]','$_POST[tahun_lahir]-$_POST[bulan_lahir]-$_POST[tanggal_lahir]','$nama_lain','$_POST[status_user]','$id_dekopin')");
+	}
+	header('location:home.php?menu=user');
+}
+if ($_GET['act'] == 'tambah_dekopin') {
+	mysqli_query($koneksi, "insert into dekopin(nama_dekopin,status_active)values('$_POST[nama_dekopin]','$_POST[status_active]')");
+	header('location:home.php?menu=dekopin');
+}
 if ($_GET['act'] == 'hapus_user') {
 	$data = mysqli_fetch_array(mysqli_query($koneksi, "select * from user where id_user='$_GET[id]'"));
 	if ($data['foto'] == '') {
